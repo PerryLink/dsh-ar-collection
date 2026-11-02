@@ -1,0 +1,16 @@
+req_id,metric,threshold,actual,script,evidence_sha256,pass,source,counted
+AC-A01,plan totals,rows=8 open=7 settled=1 chase=7 customers=4 amount=100800000,rows=8 open=7 settled=1 chase=7 customers=4 amount=100800000,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A02,three ladder stages,remind=1/2/20400000 notice=1/2/33000000 escalate=2/3/47400000,remind=1/2/20400000 notice=1/2/33000000 escalate=2/3/47400000,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A03,priority order,order=D/C/B/A amounts=32000000/15400000/33000000/20400000,order=D/C/B/A amounts=32000000/15400000/33000000/20400000,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A04,next action dates,A=2026-07-03 B=2026-07-08 C=2026-07-07 D=2026-07-07,A=2026-07-03 B=2026-07-08 C=2026-07-07 D=2026-07-07,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A05,letter drafts,count=4 sections=ok hash=ok,count=4 sections=ok hash=ok,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A06,collection CSV,rows=7 lines=8 total=100800000 header=ok,rows=7 lines=8 total=100800000 header=ok,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A07,include settled,settled=1 export_rows=8 export_settled=1,settled=1 export_rows=8 export_settled=1,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A08,minimum amount filter,customers=3 invoices=5 amount=85400000,customers=3 invoices=5 amount=85400000,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A09,custom ladder,pre=2 pre_amount=20400000 chase=3,pre=2 pre_amount=20400000 chase=3,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A10,bad CSV row,E_COLLECTION_CSV_ROW,E_COLLECTION_CSV_ROW,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A11,invalid date,E_COLLECTION_DATE_INVALID,E_COLLECTION_DATE_INVALID,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A12,invalid amount,E_COLLECTION_AMOUNT,E_COLLECTION_AMOUNT,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A13,export path safety,E_COLLECTION_PATH_INVALID,E_COLLECTION_PATH_INVALID,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+AC-A14,empty plan,E_COLLECTION_EMPTY,E_COLLECTION_EMPTY,scripts/acceptance.mjs,d098b8f15c5a4870a2b0113d7110987d8e827e554725fa768bbf1bbc24cb4966,true,public/synthetic,false
+PS1-QS01,quickstart golden,1/1,1,samples/quickstart/run.mjs,efd26f055b9c9e467f195274b1191eb84cb057ff7aa931300dee1ab7a45e79d5,true,synthetic/quickstart,true

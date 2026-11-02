@@ -1,0 +1,15 @@
+[
+  {
+    "path": "docs/assets/quickstart.png",
+    "kind": "quickstart",
+    "alt": "dsh-ar-collection quickstart terminal output",
+    "caption": "Real command: node samples/quickstart/run.mjs --check — an 8-row synthetic receivables ledger yields 4 customers across 3 ladder stages, 4 Chinese letter drafts and a 7-row collection CSV. Rendered from the captured terminal output with the CJK font msyh.ttc.",
+    "command": "node samples/quickstart/run.mjs --check",
+    "run_at": "2026-11-02T16:00:43Z",
+    "output_sha256": "efd26f055b9c9e467f195274b1191eb84cb057ff7aa931300dee1ab7a45e79d5",
+    "output_path": "samples/quickstart/expected/result.json",
+    "log": "docs/assets/quickstart.log",
+    "log_sha256": "749f55cd3ace30e6f8ed41ced86ae23cb5aaceeb81039acc8516802c8a36473f",
+    "image_sha256": "b3eee08a51606ef3c7f99335d4d4d78b08b30209bd23a0e6dcf4fe78bbd7b7dd"
+  }
+]

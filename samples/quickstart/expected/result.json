@@ -1,0 +1,296 @@
+{
+  "sample": "samples/quickstart/input/ar-collection.csv",
+  "as_of": "2026-06-30",
+  "plan": {
+    "as_of": "2026-06-30",
+    "source_sha256": "c9a2f94afefcd50771b95201c4bf042b0e5f58e8285cc4c064436120923656a2",
+    "policy": {
+      "ladder_days": [
+        7,
+        15,
+        30
+      ],
+      "min_amount_cents": 0,
+      "include_settled": false
+    },
+    "totals": {
+      "rows": 8,
+      "open_invoices": 7,
+      "settled_invoices": 1,
+      "chase_invoices": 7,
+      "chase_customers": 4,
+      "chase_amount_cents": 100800000,
+      "remind_customers": 1,
+      "notice_customers": 1,
+      "escalate_customers": 2,
+      "settled_customers": 0,
+      "below_min_customers": 0,
+      "pre_ladder_invoices": 0,
+      "pre_ladder_amount_cents": 0
+    },
+    "stages": [
+      {
+        "key": "remind",
+        "label": "提醒",
+        "min_days": 7,
+        "max_days": 14,
+        "customer_count": 1,
+        "invoice_count": 2,
+        "amount_cents": 20400000
+      },
+      {
+        "key": "notice",
+        "label": "催告",
+        "min_days": 15,
+        "max_days": 29,
+        "customer_count": 1,
+        "invoice_count": 2,
+        "amount_cents": 33000000
+      },
+      {
+        "key": "escalate",
+        "label": "升级",
+        "min_days": 30,
+        "max_days": null,
+        "customer_count": 2,
+        "invoice_count": 3,
+        "amount_cents": 47400000
+      }
+    ],
+    "customers": [
+      {
+        "priority": 1,
+        "customer": "深圳蓝海电子有限公司",
+        "contact_email": "pay@lanhai.example.com",
+        "stage": "escalate",
+        "stage_label": "升级",
+        "invoice_count": 1,
+        "amount_cents": 32000000,
+        "settled_invoice_count": 1,
+        "settled_amount_cents": 5400000,
+        "max_days_past_due": 41,
+        "oldest_due_date": "2026-05-20",
+        "next_action_date": "2026-07-07",
+        "next_action": "升级复盘并人工跟进",
+        "invoices": [
+          {
+            "invoice_no": "INV-2026-0041",
+            "due_date": "2026-05-20",
+            "days_past_due": 41,
+            "amount_cents": 32000000,
+            "paid_cents": 0,
+            "outstanding_cents": 32000000,
+            "stage": "escalate",
+            "stage_label": "升级",
+            "next_action_date": "2026-07-07"
+          }
+        ]
+      },
+      {
+        "priority": 2,
+        "customer": "江南纺织, 苏州",
+        "contact_email": "ar@jiangnan.example.com",
+        "stage": "escalate",
+        "stage_label": "升级",
+        "invoice_count": 2,
+        "amount_cents": 15400000,
+        "settled_invoice_count": 0,
+        "settled_amount_cents": 0,
+        "max_days_past_due": 46,
+        "oldest_due_date": "2026-05-15",
+        "next_action_date": "2026-07-07",
+        "next_action": "升级复盘并人工跟进",
+        "invoices": [
+          {
+            "invoice_no": "INV-2026-0032",
+            "due_date": "2026-05-15",
+            "days_past_due": 46,
+            "amount_cents": 8800000,
+            "paid_cents": 0,
+            "outstanding_cents": 8800000,
+            "stage": "escalate",
+            "stage_label": "升级",
+            "next_action_date": "2026-07-07"
+          },
+          {
+            "invoice_no": "INV-2026-0031",
+            "due_date": "2026-05-25",
+            "days_past_due": 36,
+            "amount_cents": 6600000,
+            "paid_cents": 0,
+            "outstanding_cents": 6600000,
+            "stage": "escalate",
+            "stage_label": "升级",
+            "next_action_date": "2026-07-07"
+          }
+        ]
+      },
+      {
+        "priority": 3,
+        "customer": "北方重工设备有限公司",
+        "contact_email": "finance@beifang.example.com",
+        "stage": "notice",
+        "stage_label": "催告",
+        "invoice_count": 2,
+        "amount_cents": 33000000,
+        "settled_invoice_count": 0,
+        "settled_amount_cents": 0,
+        "max_days_past_due": 22,
+        "oldest_due_date": "2026-06-08",
+        "next_action_date": "2026-07-08",
+        "next_action": "发送升级催收函",
+        "invoices": [
+          {
+            "invoice_no": "INV-2026-0022",
+            "due_date": "2026-06-08",
+            "days_past_due": 22,
+            "amount_cents": 15000000,
+            "paid_cents": 3000000,
+            "outstanding_cents": 12000000,
+            "stage": "notice",
+            "stage_label": "催告",
+            "next_action_date": "2026-07-08"
+          },
+          {
+            "invoice_no": "INV-2026-0021",
+            "due_date": "2026-06-10",
+            "days_past_due": 20,
+            "amount_cents": 21000000,
+            "paid_cents": 0,
+            "outstanding_cents": 21000000,
+            "stage": "notice",
+            "stage_label": "催告",
+            "next_action_date": "2026-07-10"
+          }
+        ]
+      },
+      {
+        "priority": 4,
+        "customer": "华东精密制造有限公司",
+        "contact_email": "ap@huadong.example.com",
+        "stage": "remind",
+        "stage_label": "提醒",
+        "invoice_count": 2,
+        "amount_cents": 20400000,
+        "settled_invoice_count": 0,
+        "settled_amount_cents": 0,
+        "max_days_past_due": 12,
+        "oldest_due_date": "2026-06-18",
+        "next_action_date": "2026-07-03",
+        "next_action": "发送催告提醒",
+        "invoices": [
+          {
+            "invoice_no": "INV-2026-0002",
+            "due_date": "2026-06-18",
+            "days_past_due": 12,
+            "amount_cents": 9600000,
+            "paid_cents": 0,
+            "outstanding_cents": 9600000,
+            "stage": "remind",
+            "stage_label": "提醒",
+            "next_action_date": "2026-07-03"
+          },
+          {
+            "invoice_no": "INV-2026-0001",
+            "due_date": "2026-06-20",
+            "days_past_due": 10,
+            "amount_cents": 12800000,
+            "paid_cents": 2000000,
+            "outstanding_cents": 10800000,
+            "stage": "remind",
+            "stage_label": "提醒",
+            "next_action_date": "2026-07-05"
+          }
+        ]
+      }
+    ]
+  },
+  "letters": {
+    "as_of": "2026-06-30",
+    "letter_count": 4,
+    "total_amount_cents": 100800000,
+    "letters": [
+      {
+        "priority": 1,
+        "customer": "深圳蓝海电子有限公司",
+        "contact_email": "pay@lanhai.example.com",
+        "stage": "escalate",
+        "stage_label": "升级",
+        "invoice_count": 1,
+        "amount_cents": 32000000,
+        "pay_by": "2026-07-03",
+        "filename": "letter-01.txt",
+        "path": "letters/letter-01.txt",
+        "sha256": "385e0d35334b8e0906af1e673dbba85298c65c2d6092fcaf1e85743ce92e6a42",
+        "bytes": 898,
+        "text": "催收函（草稿）\n============================================================\n致：深圳蓝海电子有限公司\n联系人：pay@lanhai.example.com\n\n一、账龄摘要\n截至 2026-06-30，贵司共有 1 张发票逾期未付，应催金额人民币 320,000.00 元；\n最早到期日 2026-05-20，最长逾期 41 天，当前处于「升级」阶段。\n\n二、明细表\n发票号 | 到期日 | 逾期天数 | 未收金额（元）\nINV-2026-0041 | 2026-05-20 | 41 | 320,000.00\n合计 | | | 320,000.00\n\n三、付款期限\n请于 2026-07-03 前付清上述款项，并在付款备注中注明发票号。\n若逾期未付，我方将按「升级」阶段流程继续跟进。\n\n四、联系人\n联系人：[联系人姓名]\n电话：[联系电话]\n邮箱：pay@lanhai.example.com\n\n（本函由 dsh-ar-collection 在本地生成，仅为草稿；发送前请人工复核并补全占位信息。）\n"
+      },
+      {
+        "priority": 2,
+        "customer": "江南纺织, 苏州",
+        "contact_email": "ar@jiangnan.example.com",
+        "stage": "escalate",
+        "stage_label": "升级",
+        "invoice_count": 2,
+        "amount_cents": 15400000,
+        "pay_by": "2026-07-03",
+        "filename": "letter-02.txt",
+        "path": "letters/letter-02.txt",
+        "sha256": "abfea50fe97d034d850b9f14ba31532c7319e5bf89f41bb3d0b7f314e4eef03c",
+        "bytes": 933,
+        "text": "催收函（草稿）\n============================================================\n致：江南纺织, 苏州\n联系人：ar@jiangnan.example.com\n\n一、账龄摘要\n截至 2026-06-30，贵司共有 2 张发票逾期未付，应催金额人民币 154,000.00 元；\n最早到期日 2026-05-15，最长逾期 46 天，当前处于「升级」阶段。\n\n二、明细表\n发票号 | 到期日 | 逾期天数 | 未收金额（元）\nINV-2026-0032 | 2026-05-15 | 46 | 88,000.00\nINV-2026-0031 | 2026-05-25 | 36 | 66,000.00\n合计 | | | 154,000.00\n\n三、付款期限\n请于 2026-07-03 前付清上述款项，并在付款备注中注明发票号。\n若逾期未付，我方将按「升级」阶段流程继续跟进。\n\n四、联系人\n联系人：[联系人姓名]\n电话：[联系电话]\n邮箱：ar@jiangnan.example.com\n\n（本函由 dsh-ar-collection 在本地生成，仅为草稿；发送前请人工复核并补全占位信息。）\n"
+      },
+      {
+        "priority": 3,
+        "customer": "北方重工设备有限公司",
+        "contact_email": "finance@beifang.example.com",
+        "stage": "notice",
+        "stage_label": "催告",
+        "invoice_count": 2,
+        "amount_cents": 33000000,
+        "pay_by": "2026-07-07",
+        "filename": "letter-03.txt",
+        "path": "letters/letter-03.txt",
+        "sha256": "418766e841b740d177f6df73bbcd6be95fec527ec97e7b0d358350a5c64eeb1f",
+        "bytes": 953,
+        "text": "催收函（草稿）\n============================================================\n致：北方重工设备有限公司\n联系人：finance@beifang.example.com\n\n一、账龄摘要\n截至 2026-06-30，贵司共有 2 张发票逾期未付，应催金额人民币 330,000.00 元；\n最早到期日 2026-06-08，最长逾期 22 天，当前处于「催告」阶段。\n\n二、明细表\n发票号 | 到期日 | 逾期天数 | 未收金额（元）\nINV-2026-0022 | 2026-06-08 | 22 | 120,000.00\nINV-2026-0021 | 2026-06-10 | 20 | 210,000.00\n合计 | | | 330,000.00\n\n三、付款期限\n请于 2026-07-07 前付清上述款项，并在付款备注中注明发票号。\n若逾期未付，我方将按「催告」阶段流程继续跟进。\n\n四、联系人\n联系人：[联系人姓名]\n电话：[联系电话]\n邮箱：finance@beifang.example.com\n\n（本函由 dsh-ar-collection 在本地生成，仅为草稿；发送前请人工复核并补全占位信息。）\n"
+      },
+      {
+        "priority": 4,
+        "customer": "华东精密制造有限公司",
+        "contact_email": "ap@huadong.example.com",
+        "stage": "remind",
+        "stage_label": "提醒",
+        "invoice_count": 2,
+        "amount_cents": 20400000,
+        "pay_by": "2026-07-10",
+        "filename": "letter-04.txt",
+        "path": "letters/letter-04.txt",
+        "sha256": "0199506c5809c0f57698e1cc7c7318830fa20361d7c442a25087d0f9b437c5ae",
+        "bytes": 942,
+        "text": "催收函（草稿）\n============================================================\n致：华东精密制造有限公司\n联系人：ap@huadong.example.com\n\n一、账龄摘要\n截至 2026-06-30，贵司共有 2 张发票逾期未付，应催金额人民币 204,000.00 元；\n最早到期日 2026-06-18，最长逾期 12 天，当前处于「提醒」阶段。\n\n二、明细表\n发票号 | 到期日 | 逾期天数 | 未收金额（元）\nINV-2026-0002 | 2026-06-18 | 12 | 96,000.00\nINV-2026-0001 | 2026-06-20 | 10 | 108,000.00\n合计 | | | 204,000.00\n\n三、付款期限\n请于 2026-07-10 前付清上述款项，并在付款备注中注明发票号。\n若逾期未付，我方将按「提醒」阶段流程继续跟进。\n\n四、联系人\n联系人：[联系人姓名]\n电话：[联系电话]\n邮箱：ap@huadong.example.com\n\n（本函由 dsh-ar-collection 在本地生成，仅为草稿；发送前请人工复核并补全占位信息。）\n"
+      }
+    ]
+  },
+  "exports": {
+    "collection": {
+      "path": "exports/collection-2026-06-30.csv",
+      "filename": "collection-2026-06-30.csv",
+      "sha256": "1483adc52518a77bd12b5afa59247f0bde12583005df036ffb837caa68060ab9",
+      "bytes": 620,
+      "rows": 7,
+      "as_of": "2026-06-30",
+      "customer_count": 4,
+      "invoice_count": 7,
+      "settled_rows": 0,
+      "total_amount_cents": 100800000,
+      "stage_counts": {
+        "remind": 2,
+        "notice": 2,
+        "escalate": 3,
+        "settled": 0
+      },
+      "text": "客户,票号,到期日,金额,阶梯,动作日期\n深圳蓝海电子有限公司,INV-2026-0041,2026-05-20,320000.00,升级,2026-07-07\n\"江南纺织, 苏州\",INV-2026-0032,2026-05-15,88000.00,升级,2026-07-07\n\"江南纺织, 苏州\",INV-2026-0031,2026-05-25,66000.00,升级,2026-07-07\n北方重工设备有限公司,INV-2026-0022,2026-06-08,120000.00,催告,2026-07-08\n北方重工设备有限公司,INV-2026-0021,2026-06-10,210000.00,催告,2026-07-10\n华东精密制造有限公司,INV-2026-0002,2026-06-18,96000.00,提醒,2026-07-03\n华东精密制造有限公司,INV-2026-0001,2026-06-20,108000.00,提醒,2026-07-05\n"
+    }
+  }
+}

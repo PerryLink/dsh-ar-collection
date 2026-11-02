@@ -1,0 +1,108 @@
+{
+  "run_id": "ar-collection-1793635180012",
+  "scope": "AR-COLLECTION-S1",
+  "status": "pass",
+  "counted": false,
+  "note": "synthetic receivables ledger only; no customer data; letters never sent",
+  "metrics": [
+    {
+      "req_id": "AC-A01",
+      "metric": "plan totals",
+      "threshold": "rows=8 open=7 settled=1 chase=7 customers=4 amount=100800000",
+      "actual": "rows=8 open=7 settled=1 chase=7 customers=4 amount=100800000",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A02",
+      "metric": "three ladder stages",
+      "threshold": "remind=1/2/20400000 notice=1/2/33000000 escalate=2/3/47400000",
+      "actual": "remind=1/2/20400000 notice=1/2/33000000 escalate=2/3/47400000",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A03",
+      "metric": "priority order",
+      "threshold": "order=D/C/B/A amounts=32000000/15400000/33000000/20400000",
+      "actual": "order=D/C/B/A amounts=32000000/15400000/33000000/20400000",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A04",
+      "metric": "next action dates",
+      "threshold": "A=2026-07-03 B=2026-07-08 C=2026-07-07 D=2026-07-07",
+      "actual": "A=2026-07-03 B=2026-07-08 C=2026-07-07 D=2026-07-07",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A05",
+      "metric": "letter drafts",
+      "threshold": "count=4 sections=ok hash=ok",
+      "actual": "count=4 sections=ok hash=ok",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A06",
+      "metric": "collection CSV",
+      "threshold": "rows=7 lines=8 total=100800000 header=ok",
+      "actual": "rows=7 lines=8 total=100800000 header=ok",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A07",
+      "metric": "include settled",
+      "threshold": "settled=1 export_rows=8 export_settled=1",
+      "actual": "settled=1 export_rows=8 export_settled=1",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A08",
+      "metric": "minimum amount filter",
+      "threshold": "customers=3 invoices=5 amount=85400000",
+      "actual": "customers=3 invoices=5 amount=85400000",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A09",
+      "metric": "custom ladder",
+      "threshold": "pre=2 pre_amount=20400000 chase=3",
+      "actual": "pre=2 pre_amount=20400000 chase=3",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A10",
+      "metric": "bad CSV row",
+      "threshold": "E_COLLECTION_CSV_ROW",
+      "actual": "E_COLLECTION_CSV_ROW",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A11",
+      "metric": "invalid date",
+      "threshold": "E_COLLECTION_DATE_INVALID",
+      "actual": "E_COLLECTION_DATE_INVALID",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A12",
+      "metric": "invalid amount",
+      "threshold": "E_COLLECTION_AMOUNT",
+      "actual": "E_COLLECTION_AMOUNT",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A13",
+      "metric": "export path safety",
+      "threshold": "E_COLLECTION_PATH_INVALID",
+      "actual": "E_COLLECTION_PATH_INVALID",
+      "pass": true
+    },
+    {
+      "req_id": "AC-A14",
+      "metric": "empty plan",
+      "threshold": "E_COLLECTION_EMPTY",
+      "actual": "E_COLLECTION_EMPTY",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

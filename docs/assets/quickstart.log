@@ -1,0 +1,19 @@
+$ node samples/quickstart/run.mjs --check
+dsh-ar-collection quickstart - synthetic receivables (not customer data)
+8 invoices / 4 chase customer(s); 7 open, 1 settled; chase 7 invoice(s), 1,008,000.00
+stage 提醒: 1 customer(s), 2 invoice(s), 204,000.00
+stage 催告: 1 customer(s), 2 invoice(s), 330,000.00
+stage 升级: 2 customer(s), 3 invoice(s), 474,000.00
+priority:
+  1 深圳蓝海电子有限公司: 升级, 1 invoice(s), 320,000.00, next 2026-07-07
+  2 江南纺织, 苏州: 升级, 2 invoice(s), 154,000.00, next 2026-07-07
+  3 北方重工设备有限公司: 催告, 2 invoice(s), 330,000.00, next 2026-07-08
+  4 华东精密制造有限公司: 提醒, 2 invoice(s), 204,000.00, next 2026-07-03
+letters:
+  letter-01.txt: 深圳蓝海电子有限公司 (升级), 320,000.00, pay by 2026-07-03
+  letter-02.txt: 江南纺织, 苏州 (升级), 154,000.00, pay by 2026-07-03
+  letter-03.txt: 北方重工设备有限公司 (催告), 330,000.00, pay by 2026-07-07
+  letter-04.txt: 华东精密制造有限公司 (提醒), 204,000.00, pay by 2026-07-10
+collection CSV exports/collection-2026-06-30.csv: 7 rows, 620 bytes, sha256 1483adc52518...
+golden samples/quickstart/expected/result.json matches
+quickstart ok
