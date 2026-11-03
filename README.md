@@ -113,7 +113,7 @@ No. It reads the named CSV, writes only under the two folders below `$DSH_HOME/d
 
 ## Version
 
-`0.1.0-alpha.1` · 83 tests pass (`node --test test/*.test.mjs`).
+`0.1.0` · 83 tests pass (`node --test test/*.test.mjs`).
 
 > ⭐ If this helps, a star makes it easier for the next person to find it. Nothing is gated behind it.
 
