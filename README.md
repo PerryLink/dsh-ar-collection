@@ -1,18 +1,28 @@
 <div align="center">
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-dark.svg">
+  <img src="docs/assets/dsh-ar-collection-flow-light.svg" width="100%" alt="dsh-ar-collection 数据流：应收 CSV → collection.plan 出阶梯与优先级 → collection.letters 写中文催收函草稿、collection.export 写催收清单 CSV；全程本地，network: none">
+</picture>
+
 # dsh-ar-collection
 
-> **Official repository.** The only official repository of this package, maintained by PerryLink. Same-name repositories under other accounts are not affiliated. Apache-2.0.
+**把应收明细变成按优先级排好的催收计划、中文催收函草稿和催收清单 CSV——全程本地，不联网、不发送。**
 
-[![npm](https://img.shields.io/npm/v/dsh-ar-collection)](https://www.npmjs.com/package/dsh-ar-collection)
-[![CI](https://github.com/PerryLink/dsh-ar-collection/actions/workflows/ci.yml/badge.svg)](https://github.com/PerryLink/dsh-ar-collection/actions)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+面向 DeepSeek Harness 的纯本地应收账款催收插件：读你指定的 CSV，按 7/15/30 天提醒阶梯算清每个客户该催哪几票、什么时候催，草稿与清单只写在你自己的机器上。
 
-**Turn a receivables CSV into a prioritized collection plan, Chinese collection-letter drafts and a collection-list CSV.**
+[安装](#三步上手) · [配置](#配置) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
-> **Status: alpha / public-synthetic / partial / not counted / not GA.** No customer data, customer evidence, or production-readiness, legal or audit claim.
+[![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
+[![DSH](https://img.shields.io/badge/DSH-%E2%89%A50.2.1%20%3C0.4.0-4B67B4?style=flat-square&labelColor=2B3245)](#兼容性)
+[![npm](https://img.shields.io/npm/v/dsh-ar-collection?style=flat-square&labelColor=2B3245&color=CB3837)](https://www.npmjs.com/package/dsh-ar-collection)
+[![CI](https://img.shields.io/github/actions/workflow/status/PerryLink/dsh-ar-collection/ci.yml?branch=main&label=CI&style=flat-square&labelColor=2B3245)](https://github.com/PerryLink/dsh-ar-collection/actions/workflows/ci.yml)
+[![Node](https://img.shields.io/badge/node-%3E%3D24.9-339933?style=flat-square&labelColor=2B3245)](#兼容性)
 
-[English](README.md) · [简体中文](README-zh.md)
+[![Stars](https://img.shields.io/github/stars/PerryLink/dsh-ar-collection?style=flat-square&labelColor=2B3245)](https://github.com/PerryLink/dsh-ar-collection/stargazers)
+[![npm downloads](https://img.shields.io/npm/dm/dsh-ar-collection?style=flat-square&labelColor=2B3245&color=CB3837)](https://www.npmjs.com/package/dsh-ar-collection)
+[![dshfind](https://dshfind.com/api/badge/PerryLink/dsh-ar-collection?metric=downloads)](https://dshfind.com/plugins/PerryLink/dsh-ar-collection?ref=badge)
+[![Gitee](https://img.shields.io/badge/Gitee-mirror-C71D23?style=flat-square&labelColor=2B3245&logo=gitee)](https://gitee.com/perrylink/dsh-ar-collection)
 
 ```sh
 dsh plugin --profile <profile> add dsh-ar-collection
@@ -20,147 +30,202 @@ dsh plugin --profile <profile> add dsh-ar-collection
 
 </div>
 
-## One-liner
+<sub>社区插件，与 DeepSeek 官方无关。唯一仓库：<https://github.com/PerryLink/dsh-ar-collection>（Gitee 为镜像）。</sub>
 
-Apply a 7/15/30-day reminder ladder to a receivables ledger, then produce a per-customer collection plan (invoices to chase, amount, stage, next action date, priority), local Chinese letter drafts and a collection-list CSV.
+## 一句话
 
-## Fit / not a fit
+按 7/15/30 天提醒阶梯，把应收明细算成每个客户的催收计划（应催票数、应催金额、阶梯、下次动作日期、优先级），再在本地生成中文催收函草稿和催收清单 CSV。
 
-- **Fits:** 10s to 1000s of rows; chasing by customer rather than only producing an aging table; fixing a 提醒 / 催告 / 升级 ladder, next action date and priority; giving an AR accountant a Chinese letter draft to review; a collection list to hand to a colleague or archive.
-- **Does not fit:** sending email/SMS/IM or any network delivery (this package drafts only); FX conversion; interest, penalties, bad-debt provisioning or legal advice; fully bespoke per-invoice letter templates; PDF, scans or Excel as direct input (export CSV first).
+> **状态：alpha / 公开合成 / partial / not counted / 非 GA。** 不含客户数据、客户证据，也不作生产可用、法律或审计结论声明。
 
-## Input
+## 适合 / 不适合
 
-- UTF-8 CSV with a header row and comma separators. RFC 4180 quotes, embedded newlines, CRLF and a UTF-8 BOM are supported.
-- Header: `customer,invoice_no,due_date,amount_cents,paid_cents,contact_email`. Chinese aliases such as `客户 / 发票号 / 到期日 / 金额分 / 已收金额分 / 联系人邮箱` work too; extra columns are ignored.
-- Dates: `due_date` is strict `YYYY-MM-DD`. A due date later than `as_of` is allowed (not yet due); such an invoice stays out of the plan until it reaches the first rung.
-- Amounts: integer **cents**; `amount_cents > 0` and `0 <= paid_cents <= amount_cents`; outstanding = amount - paid.
-- Email: `contact_email` may be empty; when present it must look like `name@example.com`. Empty becomes `[联系人邮箱待补充]` in a letter.
-- Invoice numbers must be unique within the file.
-- Size: up to 20 MB per file; split by customer or month beyond that.
-- Source: the local CSV the user names; it is read-only and never modified.
+- **适合**：几十到几千行的应收明细；需要按客户催收而不是只出一张账龄表；需要把“提醒 / 催告 / 升级”三档、下次动作日期和优先级固定下来；需要给应收会计一份可直接改的中文催收函草稿；需要把催收清单交给同事复核或归档。
+- **不适合**：自动发送邮件、短信、微信或任何联网投递（本包只生成草稿，不发送）；多币种折算；利息、违约金、坏账准备或法律意见；按发票逐张发函且每张函格式不同的复杂模板；PDF / 扫描件 / Excel 直接输入（请先导出成 CSV）。
 
-## Output
+## 三步上手
 
-- **`collection.plan`**: `{ as_of, source_sha256, policy, totals, stages, customers }`.
-  - `totals`: ledger rows, open/settled invoice counts, chased invoices/customers/amount, per-stage customer counts, customers skipped by the minimum amount, and pre-ladder invoice count/amount.
-  - `stages`: always the three ladder stages `提醒` / `催告` / `升级` with customer, invoice and amount totals.
-  - `customers`: priority order; each has `priority`, `invoice_count`, `amount_cents`, `stage`, `stage_label`, `next_action_date`, `next_action`, `max_days_past_due`, `oldest_due_date`, `contact_email` and per-invoice detail.
-- **`collection.letters`**: one Chinese `.txt` draft per chased customer under `$DSH_HOME/dsh-ar-collection/letters/`. Each has a salutation, aging summary, detail table (invoice no / due date / days overdue / outstanding), payment deadline and contact placeholders. Returns filename, path, `sha256` and bytes. **Never sends, never uses the network.**
-- **`collection.export`**: writes the collection list as CSV under `$DSH_HOME/dsh-ar-collection/exports/` with exactly `客户,票号,到期日,金额,阶梯,动作日期`; returns path, `sha256`, bytes and row counts. With `include_settled=true`, settled invoices are appended after each customer's chase rows (stage `已结清`, empty action date).
+1. **安装**（三选一）：
 
-## Rules
+   ```sh
+   # npm 通道（推荐，已发布版本）
+   dsh plugin --profile <profile> add dsh-ar-collection
+   # git 通道（最新 main；等价于 git+https://github.com/PerryLink/dsh-ar-collection.git）
+   dsh plugin --profile <profile> add github:PerryLink/dsh-ar-collection
+   # tarball 通道：本仓库 pnpm pack 后
+   dsh plugin --profile <profile> add ./dsh-ar-collection-<version>.tgz
+   ```
 
-1. Days past due = `as_of - due_date` in whole UTC days; negative means not yet due.
-2. Only open invoices at or beyond the first rung (default day 7) are chase candidates. Earlier invoices are counted in `pre_ladder_invoices` and stay out of the plan.
-3. A customer's stage is the stage of its **most overdue** invoice: `提醒` (7–14 days), `催告` (15–29), `升级` (30+).
-4. A customer's next action date is the earliest next-rung date across its chase invoices: `提醒` → `due+15`, `催告` → `due+30`, `升级` → `as_of + first rung day` (default +7).
-5. Priority: stage severity (escalate > notice > remind), then chased amount descending, then longest days overdue, then customer name ascending.
-6. `min_amount_cents` filters whole customers by their total chased amount; if every customer is filtered out, the call is `E_COLLECTION_EMPTY`.
-7. With `include_settled=true`, settled-only customers are included with stage `已结清` (amount 0) after every chase customer; letters are still generated only for chase customers.
-8. Letter deadlines: `提醒` = `as_of+10` days, `催告` = `as_of+7`, `升级` = `as_of+3`. Contact name, phone and any missing email remain placeholders that a human must complete before sending.
+2. **验证已生效**：
 
-## Example
+   ```sh
+   dsh --profile <profile> --dump-config | grep dsh-ar-collection
+   ```
 
-Paste this one line into the agent:
+   然后把这句话发给 agent（对应内置样例 `samples/quickstart/input/ar-collection.csv`）：
+
+   > 我有这份 8 行应收明细，用 7/15/30 天阶梯按 2026-06-30 生成催收计划、中文催收函草稿，再导出催收清单 CSV。
+
+3. **复跑样例核对金标**（可选）：
+
+   ```sh
+   node samples/quickstart/run.mjs --check
+   ```
+
+**卸载**：`dsh plugin --profile <profile> remove dsh-ar-collection`。
+
+<details>
+<summary>从 DSH Desktop 市场安装</summary>
+
+所有 PerryLink 插件均可在 DSH Desktop 内置市场中浏览：**市场 → 来源 → 添加来源 → 粘贴** `https://perrylink-dsh-catalog.perrylink.workers.dev/catalog-source.json` **→ 选中**。安装仍需通过市场的 npm 身份校验与你的确认。
+
+</details>
+
+## 核心能力
+
+工具名是稳定 API；工具说明保留英文以匹配运行时输出。
+
+| 工具 | 用途 | 风险 |
+|---|---|---|
+| `collection.plan` | 读取应收 CSV，按阶梯生成每个客户的应催票数/金额、阶梯、下次动作日期与优先级 | R0 |
+| `collection.letters` | 为每个应催客户生成中文催收函 `.txt` 草稿，写本地 `letters/`；不发送、不联网 | R1 本地写 |
+| `collection.export` | 导出催收清单 CSV（客户/票号/到期日/金额/阶梯/动作日期），返回路径与 sha256 | R1 本地写 |
+
+## 输入
+
+- 格式：UTF-8 CSV，首行表头，逗号分隔；支持 RFC 4180 引号、嵌入换行、CRLF 与 BOM。
+- 表头：`customer,invoice_no,due_date,amount_cents,paid_cents,contact_email`。也接受 `客户 / 发票号 / 到期日 / 金额分 / 已收金额分 / 联系人邮箱` 等中文别名；多出的列会被忽略。
+- 日期：`due_date` 必须是 `YYYY-MM-DD`；允许到期日晚于 `as_of`（尚未到期），这类发票不会进入催收计划，直到越过第一档。
+- 金额：整数**分**；`amount_cents > 0`，`0 <= paid_cents <= amount_cents`；未收 = 应收 - 已收。
+- 邮箱：`contact_email` 可以留空；非空时必须是 `name@example.com` 这种形式。留空时函件里用 `[联系人邮箱待补充]`。
+- 发票号：同一文件内不能重复。
+- 大小：单个文件 ≤ 20 MB；超过请按客户或月份拆文件。
+- 来源：用户自己指定的本地 CSV；原文件只读，不会被修改。
+
+## 输出
+
+- **`collection.plan`**：`{ as_of, source_sha256, policy, totals, stages, customers }`。
+  - `totals`：总行数、未收发票数、已结清发票数、应催票数/客户数/金额、三档客户数、低于最低金额被跳过的客户数、未到首档的发票数与金额。
+  - `stages`：固定三档 `提醒` / `催告` / `升级`，含每档客户数、票数、金额。
+  - `customers`：按优先级排序；每个客户有 `priority`、`invoice_count`、`amount_cents`、`stage`、`stage_label`、`next_action_date`、`next_action`、`max_days_past_due`、`oldest_due_date`、`contact_email`，以及逐票明细。
+- **`collection.letters`**：给每个应催客户生成一份中文 `.txt` 草稿，写到 `$DSH_HOME/dsh-ar-collection/letters/`。每封含抬头、账龄摘要、明细表（票号/到期日/逾期天数/未收金额）、付款期限、联系人占位。返回文件名、路径、`sha256`、字节数。**不发送、不联网。**
+- **`collection.export`**：把催收清单写成 CSV 到 `$DSH_HOME/dsh-ar-collection/exports/`，列固定为 `客户,票号,到期日,金额,阶梯,动作日期`；返回路径、`sha256`、字节数和行数。`include_settled=true` 时会在每个客户应催行后追加已结清发票（阶梯 `已结清`，动作日期留空）。
+
+## 规则
+
+1. 逾期天数 = `as_of - due_date`，按 UTC 日历日取整；允许负数（尚未到期）。
+2. 只有逾期天数 ≥ 第一档（默认 7 天）的未收发票才进入催收计划；更早的发票计入 `pre_ladder_invoices`，不进计划。
+3. 客户阶梯 = 该客户**逾期最久**那张发票所在档：`提醒`（7–14 天）、`催告`（15–29 天）、`升级`（30 天及以上）。
+4. 客户下次动作日期 = 该客户所有应催发票“下一档日期”中最早的一个；`提醒`→`due+15`，`催告`→`due+30`，`升级`→`as_of + 第一档天数`（默认 +7 天复盘）。
+5. 优先级：先按阶梯严重度（升级 > 催告 > 提醒），再按应催金额降序，再按最长逾期天数降序，最后按客户名升序。
+6. `min_amount_cents` 按**客户应催总额**过滤，低于阈值的客户整户跳过；全部客户都被过滤掉时报 `E_COLLECTION_EMPTY`。
+7. `include_settled=true` 时，只有已结清发票的客户也会以 `已结清` 阶段列入计划（金额 0，排在所有应催客户之后）；函件不会给已结清客户生成。
+8. 函件付款期限：`提醒` 为 `as_of+10` 天，`催告` 为 `as_of+7` 天，`升级` 为 `as_of+3` 天。占位符（联系人姓名、电话、缺失邮箱）发送前必须人工补全。
+
+## 示例
+
+直接复制下面这句发给 agent：
 
 > 我有这份 8 行应收明细，用 7/15/30 天阶梯按 2026-06-30 生成催收计划、中文催收函草稿，再导出催收清单 CSV。
 
-Reproduce the bundled sample and compare with the golden file:
+用自带样例复跑并核对金标：
 
 ```sh
 node samples/quickstart/run.mjs --check
 ```
 
-![dsh-ar-collection quickstart terminal output](docs/assets/quickstart.png)
+![dsh-ar-collection quickstart 真实运行输出](docs/assets/quickstart.png)
 
-The sample is an 8-row synthetic ledger with 4 customers and 1 settled invoice. It spans all three stages (1 remind / 1 notice / 2 escalate), includes one partial payment and a customer name with a comma (`"江南纺织, 苏州"`, which exercises CSV quoting). `samples/quickstart/expected/result.json` is the real stdout of `node samples/quickstart/run.mjs --json`, not hand-written; the screenshot is the real `--check` output.
+样例是 8 行合成应收、4 个客户、1 张已结清，覆盖三档（1 个提醒 / 1 个催告 / 2 个升级）、一张部分收款，以及一个带逗号的客户名（`"江南纺织, 苏州"`，用于验证 CSV 引号转义）。金标 `samples/quickstart/expected/result.json` 由 `node samples/quickstart/run.mjs --json` 真实产生，不是手写；截图是 `--check` 的真实终端输出。
 
-## Permissions
+## 配置
 
-Read: the receivables CSV the user names (sample: `samples/quickstart/input/ar-collection.csv`); nothing else.
-Write: `$DSH_HOME/dsh-ar-collection/letters/` (letter drafts) and `$DSH_HOME/dsh-ar-collection/exports/` (collection CSV) only; the source CSV is not modified.
-Network: no.
-External systems: none.
+插件本体没有 cordis 配置键（`cordis.patch.yml` 只 `insert` 一行，不含 `config`）；全部可调项都是三个工具的入参：
 
-`collection.plan` is **R0** (read-only). `collection.letters` and `collection.export` are **R1** (local write under the two folders above). `DSH_AR_COLLECTION_HOME` can override the local write root for tests; the default is exactly `$DSH_HOME/dsh-ar-collection`.
+| 参数 | 默认值 | 含义 |
+|---|---|---|
+| `path` | （必填） | 应收明细 CSV 的本地路径；只读，不会被修改 |
+| `as_of` | （必填） | 基准日期 `YYYY-MM-DD`；显式传值才能得到可复现的“今天” |
+| `days` | `[7,15,30]` | 三档阶梯的起始天数；必须 3 个严格递增的正整数，如 `[3,5,10]`、`[10,20,45]` |
+| `min_amount_cents` | `0` | 按**客户应催总额**过滤的最低金额（整数分）；低于阈值整户跳过 |
+| `include_settled` | `false` | `true` 时已结清客户以 `已结清` 阶段列入计划、导出附已结清行；函件仍只给应催客户 |
+| `filename_prefix` | `letter` | 仅 `collection.letters`：函件文件名前缀 |
+| `filename` | 按 `as_of` 生成 | 仅 `collection.export`：导出文件名，只允许 `[A-Za-z0-9._-]` |
+
+测试可用环境变量 `DSH_AR_COLLECTION_HOME` 覆盖本地写根目录，默认严格等于 `$DSH_HOME/dsh-ar-collection`。
+
+## 权限
+
+读：用户指定的应收明细 CSV（样例 `samples/quickstart/input/ar-collection.csv`）；不读其他目录。
+写：`$DSH_HOME/dsh-ar-collection/letters/`（中文催收函草稿）与 `$DSH_HOME/dsh-ar-collection/exports/`（催收清单 CSV）；不改原 CSV。
+联网：否。
+外部系统：无。
+
+`collection.plan` 标 **R0**（只读）；`collection.letters` 和 `collection.export` 标 **R1**（本地写，只写上面两个目录）。测试可用 `DSH_AR_COLLECTION_HOME` 覆盖本地写根目录，默认严格等于 `$DSH_HOME/dsh-ar-collection`。
 
 ## FAQ
 
-### 1. Are letters sent automatically?
+<details>
+<summary>催收函会自动发出去吗？</summary>
 
-No. `collection.letters` writes `.txt` drafts locally and never calls email, SMS, IM, HTTP or any external system. Contact name, phone and a missing email stay as placeholders; a human must review and complete them before sending. This package does not make the send decision for you.
+不会。`collection.letters` 只在本地写 `.txt` 草稿，不调用邮件、短信、IM、HTTP 或任何外部系统。联系人姓名、电话和缺失邮箱都是占位符，发送前必须人工复核并补全。本包不替你作发送决定。
 
-### 2. Can the ladder be changed?
+</details>
 
-Yes. `days` must be three strictly increasing positive integers, default `[7,15,30]`, for example `[3,5,10]` or `[10,20,45]`. The three stage names stay 提醒 / 催告 / 升级; only their start days move.
+<details>
+<summary>阶梯能不能改？</summary>
 
-### 3. Why are settled invoices excluded?
+可以。`days` 必须是 3 个严格递增的正整数，默认 `[7,15,30]`，例如 `[3,5,10]` 或 `[10,20,45]`。三档固定为“提醒 / 催告 / 升级”，改的是每档的起始天数。
 
-With the default `include_settled=false`, settled invoices only count in `totals.settled_invoices`; they are not chased, exported or lettered. With `include_settled=true`, settled-only customers appear with stage `已结清` (amount 0) and settled rows are appended to the export; letters still only cover chase customers.
+</details>
 
-### 4. Is the minimum amount per invoice or per customer?
+<details>
+<summary>已结清发票为什么不进计划？</summary>
 
-Per **customer chased total**. If a customer's chase invoices add up below `min_amount_cents`, the whole customer is skipped and counted in `totals.below_min_customers`.
+默认 `include_settled=false`：已结清发票只计入 `totals.settled_invoices`，不催、不导出、不发函。传 `include_settled=true` 后，已结清客户会以 `已结清` 阶段出现在计划里（金额 0），导出时也会带出已结清行；函件仍然只给应催客户。
 
-### 5. Are amounts in yuan or cents?
+</details>
 
-Inputs and tool APIs use integer **cents**. `12800000` means 128,000.00. Letters and CSV render two decimals; letters also add thousands separators.
+<details>
+<summary>“最低金额”按单张票还是按客户？</summary>
 
-### 6. Does it modify or upload my file?
+按**客户应催总额**。同一客户有多张可催发票时先合计，再和 `min_amount_cents` 比较。低于阈值的客户整户跳过，并计入 `totals.below_min_customers`。
 
-No. It reads the named CSV, writes only under the two folders below `$DSH_HOME/dsh-ar-collection/`, and never uses the network, a model call or an upload. The source CSV is not modified.
+</details>
 
-## Version
+<details>
+<summary>金额单位是元还是分？</summary>
 
-`0.1.0` · 83 tests pass (`node --test test/*.test.mjs`).
+工具 API 和输入都是**整数分**。`12800000` 表示 128,000.00 元。函件和 CSV 会格式化成两位小数，函件还带千分位，方便直接阅读。
 
-> ⭐ If this helps, a star makes it easier for the next person to find it. Nothing is gated behind it.
+</details>
 
-## Install
+<details>
+<summary>会改我的文件或上传数据吗？</summary>
 
-```sh
-dsh plugin --profile <profile> add dsh-ar-collection
-dsh --profile <profile> --dump-config | grep dsh-ar-collection
-```
+不会。只读用户指定的 CSV；只在本地写 `$DSH_HOME/dsh-ar-collection/` 下的两个子目录；不联网、不调用模型、不上传。原 CSV 不会被改写。
 
-Uninstall:
+</details>
 
-```sh
-dsh plugin --profile <profile> remove dsh-ar-collection
-```
+## 版本
 
-### Install channels
+`0.1.0` · 83 项测试通过（`node --test test/*.test.mjs`）。
 
-- **npm (recommended):** `dsh plugin --profile <profile> add dsh-ar-collection`
-- **git channel:** `dsh plugin --profile <profile> add github:PerryLink/dsh-ar-collection`
-- **tarball:** `pnpm pack`, then `dsh plugin --profile <profile> add ./dsh-ar-collection-<version>.tgz`
+## 错误码
 
-## Tools
-
-Tool names are stable API; descriptions stay in English to match runtime output.
-
-| Tool | Purpose | Risk |
+| 错误码 | 何时出现 | 下一步 |
 |---|---|---|
-| `collection.plan` | Read the receivables CSV and produce each customer's chased invoice/amount, stage, next action date and priority | R0 |
-| `collection.letters` | Write a Chinese collection-letter `.txt` draft per chased customer under `letters/`; never sends, no network | R1 local write |
-| `collection.export` | Write the collection-list CSV (customer / invoice / due date / amount / stage / action date), returning path + sha256 | R1 local write |
+| `E_COLLECTION_CSV_ROW` | 列数不对、表头缺失/重复、客户/发票号为空、发票号重复、邮箱格式不对、阶梯参数不合法、文件超过 20 MB | 对照表头修这一行；阶梯必须 3 个严格递增正整数 |
+| `E_COLLECTION_DATE_INVALID` | `due_date` 或 `as_of` 不是 `YYYY-MM-DD`、不是真实日期 | 统一日期格式并核对真实性 |
+| `E_COLLECTION_AMOUNT` | 金额分不是正整数、金额为 0、已收超过应收、`min_amount_cents` 为负或非整数 | 金额一律填整数分，且 `0 <= paid <= amount` |
+| `E_COLLECTION_PATH_INVALID` | 输入路径不存在/是目录/读不了，导出文件名含路径、空格、中文、超长，或写文件失败 | 传存在的 CSV；导出只传 `[A-Za-z0-9._-]` 文件名 |
+| `E_COLLECTION_EMPTY` | CSV 为空/只有表头、全部已结清、没有客户越过第一档、或全部低于最低金额 | 确认 `as_of` 与 `days`；需要看已结清客户时传 `include_settled=true` |
 
-## Errors
+报错原文格式：`<一句人话>（E_COLLECTION_XXX）｜下一步：<一个动作>`。更多排查见 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)。
 
-| Code | When | Next action |
-|---|---|---|
-| `E_COLLECTION_CSV_ROW` | Wrong column count, missing/duplicate header, empty customer/invoice, duplicate invoice, bad email, invalid ladder, file > 20 MB | Fix the named row; `days` must be three strictly increasing positive integers |
-| `E_COLLECTION_DATE_INVALID` | `due_date` or `as_of` is not a real `YYYY-MM-DD` date | Use ISO dates and check they exist |
-| `E_COLLECTION_AMOUNT` | Not a positive integer of cents, zero amount, paid above amount, negative/fractional `min_amount_cents` | Integer cents with `0 <= paid <= amount` |
-| `E_COLLECTION_PATH_INVALID` | Missing/directory/unreadable input, unsafe export filename, or a write failure | Pass an existing CSV; export with `[A-Za-z0-9._-]` only |
-| `E_COLLECTION_EMPTY` | Empty/header-only CSV, everything settled, no customer past the first rung, or all below the minimum | Check `as_of` and `days`; pass `include_settled=true` to see settled customers |
+## 验收证据
 
-The message format is `<one sentence>（E_COLLECTION_XXX）｜下一步：<one action>`. See [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
-
-## Acceptance evidence
-
-Public/synthetic fixtures live in `samples/quickstart/`; `ACCEPTANCE.csv` records 14 tool checks plus the quickstart golden. Every row is `counted=false` except the quickstart row.
+公开/合成 fixture 在 `samples/quickstart/`；`ACCEPTANCE.csv` 记录 14 项工具检查 + 1 项 quickstart 金标，除 quickstart 行外均为 `counted=false`。
 
 | req_id | metric | threshold | actual | pass | source | counted |
 |---|---|---|---|---|---|---|
@@ -171,22 +236,35 @@ Public/synthetic fixtures live in `samples/quickstart/`; `ACCEPTANCE.csv` record
 | AC-A06 | collection CSV | rows=7 lines=8 | rows=7 lines=8 | true | public/synthetic | false |
 | PS1-QS01 | quickstart golden | 1/1 | 1 | true | synthetic/quickstart | true |
 
-*Fixture-backed rows, not a customer run; no output is invented.*
+*这是 fixture 支撑的验收行，不是客户运行；没有编造输出。*
 
-## Limits and known limitations
+## 边界与已知限制
 
-- **No sending:** local drafts only; no email/SMS/IM integration, delivery status, bounce or reply tracking.
-- **No currency model:** the input has no currency column, so all amounts are assumed to be one currency. Split files or convert in the source system.
-- **Principal only:** no interest, penalties, bad-debt provision or impairment.
-- **No credit notes:** `amount_cents` must be > 0; offset red invoices in the source system first.
-- **Fixed template:** one built-in Chinese template; no multilingual letters, PDF attachments, e-signature or postal delivery.
-- CSV only: no PDF, scans or Excel, and no OCR.
-- Dates use UTC calendar days; pass `as_of` explicitly for a reproducible "today".
-- Exported CSV uses RFC 4180 quoting only; Excel formula prefixes are not sanitised.
-- Local only: no network, no model call, no upload.
-- Public/synthetic samples only; alpha/partial, not counted, no GA or production-readiness claim.
+- **不发送**：只生成本地草稿；不接邮件/短信/IM，不做投递状态、退信或回复跟踪。
+- **单币种未建模**：输入没有币种列，金额按同一种货币解释；多币种请拆文件或先在源系统折算。
+- **不含利息/违约金**：只催未收本金；不计算滞纳金、利息、坏账准备或减值。
+- **不含贷记单**：`amount_cents` 必须大于 0；红字发票/贷项通知单请先在源系统冲抵。
+- **模板固定**：函件是内置中文模板；不做多语言函件、附件 PDF、签章或邮寄。
+- 只读 CSV：不读 PDF / 扫描件 / Excel，不做 OCR。
+- 日期按 UTC 日历日；跨时区的“今天”请显式传 `as_of`。
+- 导出 CSV 只做 RFC 4180 引号转义，不做 Excel 公式前缀清洗；不要用 Excel 直接打开来源不明的 CSV。
+- 仅公开/合成样例；alpha/partial、not counted，不作 GA 或生产可用声明。
 
-## Development
+## 兼容性
+
+| 维度 | 状态 |
+|---|---|
+| Harness | `dsh >=0.2.1-rc.3 <0.4.0` |
+| Node | `>=24.9.0 <25` |
+| 平台 | 全平台；只读写本地文件 |
+| 数据 | 不联网、不调用模型、不上传 |
+
+## 生态与质量
+
+- [Gitee 镜像](https://gitee.com/perrylink/dsh-ar-collection)（同步镜像，以 GitHub 为准）
+- [dshfind 插件页](https://dshfind.com/plugins/PerryLink/dsh-ar-collection)（安装量与排名）
+
+## 开发
 
 ```sh
 pnpm install --frozen-lockfile
@@ -195,21 +273,24 @@ node --test test/*.test.mjs
 node scripts/gate.mjs
 ```
 
-## Compatibility
+配图由 [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) 程序化生成（Python + Pillow），可重复执行；`docs/assets/quickstart.png` 是 `--check` 的真实终端截图，不在脚本覆盖范围内。
 
-| Surface | Status |
-|---|---|
-| Harness | `dsh >=0.2.1-rc.3 <0.4.0` |
-| Node | `>=24.9.0 <25` |
-| Platforms | All; local files only |
-| Data | No network, no model call, no upload |
+Topics：`dsh`, `dsh-plugin`, `deepseek-harness`, `accounts-receivable`, `collections`, `dunning`, `receivables`, `finance`, `csv`, `perrylink`
 
-## Related work
+## 相关项目
 
-- [dsh-ar-aging](https://github.com/PerryLink/dsh-ar-aging) (AR aging)
-- [dsh-bankrec](https://github.com/PerryLink/dsh-bankrec) (bank statement reconciliation)
-- [Domain index](https://perrylink.github.io/dsh-plugins/)
+- [dsh-ar-aging](https://github.com/PerryLink/dsh-ar-aging)（应收账龄）
+- [dsh-bankrec](https://github.com/PerryLink/dsh-bankrec)（银行流水对账）
+- [领域索引](https://perrylink.github.io/dsh-plugins/)
+
+## 家族与致谢
+
+本项目是 [PerryLink](https://github.com/PerryLink) 维护的 DeepSeek Harness 插件家族成员（全部 Apache-2.0）。如果它帮到了你，**给个 star**——它不解锁任何功能，但会让下一个人更容易找到它。
+
+- [@PerryLink](https://github.com/PerryLink) —— 创建者与维护者。
 
 ## License
 
-Apache-2.0. See `LICENSE`, `NOTICE`, `THIRD-PARTY-NOTICES`.
+[LICENSE](LICENSE)（Apache License 2.0）© 2026 dsh-ar-collection contributors。另见 `NOTICE`、`THIRD-PARTY-NOTICES`。
+
+<p align="center"><sub>Apache-2.0 · 社区插件，与 DeepSeek 无关。</sub></p>
