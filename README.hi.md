@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-light.svg" width="100%" alt="dsh-ar-collection डेटा प्रवाह: प्राप्य CSV → collection.plan चरण और प्राथमिकता निकालता है → collection.letters चीनी वसूली पत्र ड्राफ़्ट और collection.export वसूली सूची CSV लिखता है; पूरी तरह लोकल, network: none">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-hero-en-dark.webp">
+  <img src="docs/assets/dsh-ar-collection-hero-en-light.webp" width="100%" alt="dsh-ar-collection बैनर: बाईं ओर शीर्षक और मूल्य-पंक्तियाँ; दाईं ओर तीन-चरणीय वसूली सीढ़ी (रिमाइंडर / नोटिस / एस्केलेट) और प्राथमिकता क्रम में 4 ग्राहक, quickstart नमूने के आँकड़े और तिथियाँ, as_of 2026-06-30">
 </picture>
 
 # dsh-ar-collection
@@ -37,6 +37,11 @@ dsh plugin --profile <profile> add dsh-ar-collection
 7/15/30 दिन की रिमाइंडर सीढ़ी प्राप्य बही-खाते पर लगाकर हर ग्राहक की वसूली योजना (माँगनी जाने वाली फ़्राप्तियाँ, राशि, चरण, अगली कार्रवाई तिथि, प्राथमिकता), लोकल चीनी पत्र-ड्राफ़्ट और वसूली सूची CSV तैयार करता है।
 
 > **स्थिति: alpha / सार्वजनिक-सिंथेटिक / आंशिक / गिनती में नहीं / GA नहीं।** कोई ग्राहक डेटा, ग्राहक साक्ष्य या उत्पादन-तैयारी, कानूनी या ऑडिट दावा नहीं।
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="dsh-ar-collection संरचना: केवल-पढ़ने योग्य प्राप्य CSV और नीति पैरामीटर collection.plan में जाते हैं; 7/15/30 दिन की सीढ़ी 7 अतिदेय फ़्राप्तियों को रिमाइंडर / नोटिस / एस्केलेट कॉलम में बाँटती है और ग्राहकों को चरण, राशि और अतिदेय दिनों से क्रमबद्ध करती है; फिर तीन लोकल आर्टिफ़ैक्ट: योजना रिपोर्ट, 4 चीनी पत्र-ड्राफ़्ट और 7 पंक्तियों वाली वसूली सूची CSV">
+</picture>
 
 ## किसके लिए उपयुक्त / किसके लिए नहीं
 

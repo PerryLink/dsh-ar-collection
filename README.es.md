@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-light.svg" width="100%" alt="Flujo de datos de dsh-ar-collection: CSV de cuentas por cobrar → collection.plan calcula escalones y prioridad → collection.letters escribe borradores de cartas en chino y collection.export escribe el CSV de la lista de cobro; todo local, network: none">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-hero-en-dark.webp">
+  <img src="docs/assets/dsh-ar-collection-hero-en-light.webp" width="100%" alt="dsh-ar-collection, banner: a la izquierda el título y las frases de valor; a la derecha la escalera de cobro de tres tramos (recordatorio / aviso / escalado) y los 4 clientes ordenados por prioridad, con importes, recuentos y fechas del ejemplo quickstart, as_of 2026-06-30">
 </picture>
 
 # dsh-ar-collection
@@ -37,6 +37,11 @@ dsh plugin --profile <profile> add dsh-ar-collection
 Aplica una escalera de recordatorios de 7/15/30 días a un libro de cuentas por cobrar y produce un plan de cobro por cliente (facturas a reclamar, importe, escalón, próxima fecha de acción, prioridad), borradores de cartas en chino y un CSV con la lista de cobro, todo en local.
 
 > **Estado: alpha / sintético-público / parcial / no contado / no GA.** Sin datos de clientes, sin evidencia de clientes y sin declaración de idoneidad para producción, legal o de auditoría.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="Estructura de dsh-ar-collection: un CSV de cuentas por cobrar de solo lectura y los parámetros de política alimentan collection.plan; la escalera de 7/15/30 días reparte 7 facturas vencidas en las columnas recordatorio / aviso / escalado y ordena a los clientes por escalón, importe y días de atraso; después salen tres artefactos locales: el informe del plan, 4 borradores de cartas en chino y un CSV de lista de cobro de 7 filas">
+</picture>
 
 ## Cuándo encaja y cuándo no
 

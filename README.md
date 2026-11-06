@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-light.svg" width="100%" alt="dsh-ar-collection 数据流：应收 CSV → collection.plan 出阶梯与优先级 → collection.letters 写中文催收函草稿、collection.export 写催收清单 CSV；全程本地，network: none">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-hero-zh-dark.webp">
+  <img src="docs/assets/dsh-ar-collection-hero-zh-light.webp" width="100%" alt="dsh-ar-collection 横幅：左侧是标题与价值句，右侧是提醒 / 催告 / 升级三档催收阶梯和按优先级排好的 4 个客户；金额、张数与下次动作日期取自 quickstart 样例，as_of 2026-06-30">
 </picture>
 
 # dsh-ar-collection
@@ -37,6 +37,11 @@ dsh plugin --profile <profile> add dsh-ar-collection
 按 7/15/30 天提醒阶梯，把应收明细算成每个客户的催收计划（应催票数、应催金额、阶梯、下次动作日期、优先级），再在本地生成中文催收函草稿和催收清单 CSV。
 
 > **状态：alpha / 公开合成 / partial / not counted / 非 GA。** 不含客户数据、客户证据，也不作生产可用、法律或审计结论声明。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="dsh-ar-collection 结构图：只读应收 CSV 与策略参数进入 collection.plan，按 as_of 和 7/15/30 天阶梯把 7 张逾期票分进提醒 / 催告 / 升级三栏，客户按阶梯 → 金额 → 逾期天数排优先级；随后分叉为 collection.plan 报告、collection.letters 的 4 封中文函稿和 collection.export 的 7 行清单 CSV，全部只写本地">
+</picture>
 
 ## 适合 / 不适合
 

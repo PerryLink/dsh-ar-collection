@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-light.svg" width="100%" alt="dsh-ar-collection data flow: receivables CSV → collection.plan computes stages and priority → collection.letters writes Chinese letter drafts and collection.export writes the collection-list CSV; fully local, network: none">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-hero-en-dark.webp">
+  <img src="docs/assets/dsh-ar-collection-hero-en-light.webp" width="100%" alt="dsh-ar-collection hero: title and value lines on the left; on the right a remind / notice / escalate dunning ladder and the four priority-ranked customers from the quickstart fixture, as of 2026-06-30">
 </picture>
 
 # dsh-ar-collection
@@ -37,6 +37,11 @@ dsh plugin --profile <profile> add dsh-ar-collection
 Apply a 7/15/30-day reminder ladder to a receivables ledger, then produce a per-customer collection plan (invoices to chase, amount, stage, next action date, priority), local Chinese letter drafts and a collection-list CSV.
 
 > **Status: alpha / public-synthetic / partial / not counted / not GA.** No customer data, customer evidence, or production-readiness, legal or audit claim.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="dsh-ar-collection structure: a read-only receivables CSV plus policy parameters feed collection.plan; the 7/15/30-day ladder sorts 7 overdue invoices into remind / notice / escalate columns and orders customers by stage, amount and days past due; three local artefacts follow - the plan report, 4 Chinese letter drafts and a 7-row collection-list CSV">
+</picture>
 
 ## Fit / not a fit
 

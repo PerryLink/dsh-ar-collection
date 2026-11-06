@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660" role="img" aria-label="dsh-ar-collection structure: one read-only receivables CSV plus a policy feed collection.plan; the 7/15/30-day ladder places 7 overdue invoices into remind / notice / escalate columns and customers are ranked by stage, amount and days past due; three local artefacts follow - the plan report, 4 Chinese letter drafts and a 7-row collection-list CSV">
+<title>dsh-ar-collection: one plan snapshot, three local artefacts</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
+<stop offset="0" stop-color="#131a2a"/>
+<stop offset="1" stop-color="#0c1016"/>
+</linearGradient>
+<filter id="soft" x="-30%" y="-30%" width="160%" height="180%">
+<feDropShadow dx="0" dy="8" stdDeviation="11" flood-color="#1b1735" flood-opacity="0.10"/></filter>
+<pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+<circle cx="1.4" cy="1.4" r="1.4" fill="#26314a"/></pattern>
+</defs>
+<rect width="1100" height="660" fill="url(#bg)"/>
+<rect width="1100" height="660" fill="url(#dots)" opacity=".45"/>
+<text x="44" y="62" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="34" font-weight="700">dsh-ar-collection</text>
+<text x="44" y="88" fill="#a8b1c4" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="15">receivables CSV → 7/15/30 ladder → per-customer priority → 3 local artefacts</text>
+<rect x="644" y="40" width="412" height="34" rx="17" fill="#242d42"/>
+<text x="850" y="62" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="middle">as_of 2026-06-30 · days [7,15,30] · fixture</text>
+<line x1="44" y1="106" x2="1056" y2="106" stroke="#1e2636" stroke-width="1.5"/>
+<g filter="url(#soft)"><rect x="40" y="124" width="228" height="346" rx="20" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="60" y="158" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INPUT CSV · READ-ONLY</text>
+<text x="60" y="190" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="19" font-weight="700">ar-collection.csv</text>
+<text x="60" y="216" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">8 rows · 4 customers</text>
+<text x="60" y="238" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">1 settled · 2 partial</text>
+<text x="60" y="260" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">UTF-8 · ≤20 MB</text>
+<line x1="60" y1="276" x2="248" y2="276" stroke="#1e2636" stroke-width="1.5"/>
+<text x="60" y="296" fill="#737b8d" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">columns · 6</text>
+<text x="60" y="318" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">customer</text>
+<text x="60" y="340" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">invoice_no</text>
+<text x="60" y="362" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">due_date</text>
+<text x="60" y="384" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">amount_cents</text>
+<text x="60" y="406" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">paid_cents</text>
+<text x="60" y="428" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">contact_email</text>
+<text x="60" y="456" fill="#737b8d" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">sha256 c9a2f94a…</text>
+<path d="M270 160 H284" fill="none" stroke="#8496f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M280 156 L286 160 L280 164" fill="none" stroke="#8496f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<g filter="url(#soft)"><rect x="288" y="124" width="768" height="72" rx="18" fill="#171e2d" stroke="#2b3448" stroke-width="1.5"/></g>
+<text x="304" y="152" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="700">collection.plan · R0</text>
+<text x="304" y="178" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">as_of 2026-06-30 · days [7,15,30] · min_amount_cents 0 · include_settled false</text>
+<text x="1040" y="152" fill="#737b8d" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">settled 1 · below_min 0 · snapshot</text>
+<g filter="url(#soft)"><rect x="288" y="210" width="240" height="260" rx="18" fill="#171e2d" stroke="#2b3448" stroke-width="1.5"/></g>
+<text x="304" y="240" fill="#f0f3f9" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="20" font-weight="700">提醒</text>
+<text x="304" y="262" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">7–14d · remind · 2 票</text>
+<text x="304" y="284" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">1 户 · ¥204,000</text>
+<g filter="url(#soft)"><rect x="304" y="296" width="208" height="88" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="316" y="322" fill="#f0f3f9" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="16.5" font-weight="700">华东精密制造有限公司</text>
+<text x="500" y="320" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">#4</text>
+<text x="316" y="344" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">2 票 · ¥204,000</text>
+<text x="500" y="344" fill="#737b8d" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">07-03</text>
+<text x="316" y="362" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INV-2026-0002 · 12d</text>
+<text x="316" y="378" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INV-2026-0001 · 10d</text>
+<g filter="url(#soft)"><rect x="552" y="210" width="240" height="260" rx="18" fill="#171e2d" stroke="#2b3448" stroke-width="1.5"/></g>
+<text x="568" y="240" fill="#f0f3f9" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="20" font-weight="700">催告</text>
+<text x="568" y="262" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">15–29d · notice · 2 票</text>
+<text x="568" y="284" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">1 户 · ¥330,000</text>
+<g filter="url(#soft)"><rect x="568" y="296" width="208" height="88" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="580" y="322" fill="#f0f3f9" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="16.5" font-weight="700">北方重工设备有限公司</text>
+<text x="764" y="320" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">#3</text>
+<text x="580" y="344" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">2 票 · ¥330,000</text>
+<text x="764" y="344" fill="#737b8d" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">07-08</text>
+<text x="580" y="362" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INV-2026-0022 · 22d</text>
+<text x="580" y="378" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INV-2026-0021 · 20d</text>
+<g filter="url(#soft)"><rect x="816" y="210" width="240" height="260" rx="18" fill="#171e2d" stroke="#2b3448" stroke-width="1.5"/></g>
+<text x="832" y="240" fill="#f0f3f9" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="20" font-weight="700">升级</text>
+<text x="832" y="262" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">≥30d · escalate · 3 票</text>
+<text x="832" y="284" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">2 户 · ¥474,000</text>
+<g filter="url(#soft)"><rect x="832" y="296" width="208" height="74" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="844" y="322" fill="#f0f3f9" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="16.5" font-weight="700">深圳蓝海电子有限公司</text>
+<text x="1028" y="320" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">#1</text>
+<text x="844" y="344" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">1 票 · ¥320,000</text>
+<text x="1028" y="344" fill="#737b8d" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">07-07</text>
+<text x="844" y="362" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INV-2026-0041 · 41d</text>
+<g filter="url(#soft)"><rect x="832" y="376" width="208" height="88" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="844" y="402" fill="#f0f3f9" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="16.5" font-weight="700">江南纺织, 苏州</text>
+<text x="1028" y="400" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">#2</text>
+<text x="844" y="424" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">2 票 · ¥154,000</text>
+<text x="1028" y="424" fill="#737b8d" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" text-anchor="end">07-07</text>
+<text x="844" y="442" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INV-2026-0032 · 46d</text>
+<text x="844" y="458" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">INV-2026-0031 · 36d</text>
+<path d="M672 470 V478" fill="none" stroke="#8496f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M201 478 H893" fill="none" stroke="#8496f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M201 478 V486" fill="none" stroke="#8496f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M547 478 V486" fill="none" stroke="#8496f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M893 478 V486" fill="none" stroke="#8496f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="201" cy="478" r="2.6" fill="#8496f5"/>
+<circle cx="547" cy="478" r="2.6" fill="#8496f5"/>
+<circle cx="893" cy="478" r="2.6" fill="#8496f5"/>
+<g filter="url(#soft)"><rect x="40" y="486" width="322" height="126" rx="18" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="54" y="512" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">collection.plan · R0</text>
+<text x="54" y="538" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">as_of · source_sha256 · policy</text>
+<text x="54" y="559" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">totals · stages[3] · customers[4]</text>
+<text x="54" y="580" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">priority · stage · next_action_date</text>
+<text x="54" y="601" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">→ 7 invoices · ¥1,008,000</text>
+<g filter="url(#soft)"><rect x="386" y="486" width="322" height="126" rx="18" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="400" y="512" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">collection.letters · R1</text>
+<text x="400" y="538" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">1 .txt per chase customer · 4</text>
+<text x="400" y="559" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">pay_by as_of+10 / +7 / +3</text>
+<text x="400" y="580" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">→ $DSH_HOME/dsh-ar-collection/</text>
+<text x="400" y="601" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">letters/letter-01.txt … -04.txt</text>
+<g filter="url(#soft)"><rect x="732" y="486" width="322" height="126" rx="18" fill="#1b2231" stroke="#2e374b" stroke-width="1.5"/></g>
+<text x="746" y="512" fill="#f0f3f9" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">collection.export · R1</text>
+<text x="746" y="538" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">rows 7 + header · 4 customers</text>
+<text x="746" y="559" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">客户,票号,到期日,金额,阶梯,动作日期</text>
+<text x="746" y="580" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">→ exports/</text>
+<text x="746" y="601" fill="#8496f5" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">collection-2026-06-30.csv</text>
+<text x="44" y="630" fill="#a8b1c4" font-family="Consolas, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">next_action_date: remind due+15 · notice due+30 · escalate as_of+7 · customer stage = worst invoice</text>
+<text x="44" y="648" fill="#737b8d" font-family="'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', 'Segoe UI', system-ui, sans-serif" font-size="14">priority: stage &gt; amount &gt; days · days_past_due = as_of − due_date (UTC) · &lt;7d = pre_ladder · R0 read-only / R1 local write · no network</text>
+</svg>

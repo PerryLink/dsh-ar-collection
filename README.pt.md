@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-light.svg" width="100%" alt="Fluxo de dados do dsh-ar-collection: CSV de contas a receber → collection.plan calcula degraus e prioridade → collection.letters escreve rascunhos de cartas em chinês e collection.export escreve o CSV da lista de cobrança; tudo local, network: none">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-hero-en-dark.webp">
+  <img src="docs/assets/dsh-ar-collection-hero-en-light.webp" width="100%" alt="dsh-ar-collection, banner: à esquerda o título e as frases de valor; à direita a escada de cobrança de três degraus (lembrete / aviso / escalonamento) e os 4 clientes ordenados por prioridade, com valores, contagens e datas do exemplo quickstart, as_of 2026-06-30">
 </picture>
 
 # dsh-ar-collection
@@ -37,6 +37,11 @@ dsh plugin --profile <profile> add dsh-ar-collection
 Aplica uma escada de lembretes de 7/15/30 dias a um razão de contas a receber e produz um plano de cobrança por cliente (faturas a cobrar, valor, degrau, próxima data de ação, prioridade), rascunhos de cartas em chinês e um CSV com a lista de cobrança, tudo localmente.
 
 > **Status: alpha / sintético-público / parcial / não contado / não GA.** Sem dados de clientes, sem evidência de clientes e sem declaração de prontidão para produção, legal ou de auditoria.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="Estrutura do dsh-ar-collection: um CSV de contas a receber somente leitura e os parâmetros de política alimentam collection.plan; a escada de 7/15/30 dias distribui 7 faturas vencidas nas colunas lembrete / aviso / escalonamento e ordena os clientes por degrau, valor e dias em atraso; depois saem três artefatos locais: o relatório do plano, 4 rascunhos de cartas em chinês e um CSV de lista de cobrança com 7 linhas">
+</picture>
 
 ## Quando serve e quando não serve
 
