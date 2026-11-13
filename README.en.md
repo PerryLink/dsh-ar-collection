@@ -40,7 +40,7 @@ Apply a 7/15/30-day reminder ladder to a receivables ledger, then produce a per-
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="dsh-ar-collection structure: a read-only receivables CSV plus policy parameters feed collection.plan; the 7/15/30-day ladder sorts 7 overdue invoices into remind / notice / escalate columns and orders customers by stage, amount and days past due; three local artefacts follow - the plan report, 4 Chinese letter drafts and a 7-row collection-list CSV">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="dsh-ar-collection structure: a read-only receivables CSV plus policy parameters feed collection_plan; the 7/15/30-day ladder sorts 7 overdue invoices into remind / notice / escalate columns and orders customers by stage, amount and days past due; three local artefacts follow - the plan report, 4 Chinese letter drafts and a 7-row collection-list CSV">
 </picture>
 
 ## Fit / not a fit
@@ -94,9 +94,9 @@ Tool names are stable API; descriptions stay in English to match runtime output.
 
 | Tool | Purpose | Risk |
 |---|---|---|
-| `collection.plan` | Read the receivables CSV and produce each customer's chased invoice/amount, stage, next action date and priority | R0 |
-| `collection.letters` | Write a Chinese collection-letter `.txt` draft per chased customer under `letters/`; never sends, no network | R1 local write |
-| `collection.export` | Write the collection-list CSV (customer / invoice / due date / amount / stage / action date), returning path + sha256 | R1 local write |
+| `collection_plan` | Read the receivables CSV and produce each customer's chased invoice/amount, stage, next action date and priority | R0 |
+| `collection_letters` | Write a Chinese collection-letter `.txt` draft per chased customer under `letters/`; never sends, no network | R1 local write |
+| `collection_export` | Write the collection-list CSV (customer / invoice / due date / amount / stage / action date), returning path + sha256 | R1 local write |
 
 ## Input
 
@@ -122,12 +122,12 @@ customer,invoice_no,due_date,amount_cents,paid_cents,contact_email
 
 ## Output
 
-- **`collection.plan`**: `{ as_of, source_sha256, policy, totals, stages, customers }`.
+- **`collection_plan`**: `{ as_of, source_sha256, policy, totals, stages, customers }`.
   - `totals`: ledger rows, open/settled invoice counts, chased invoices/customers/amount, per-stage customer counts, customers skipped by the minimum amount, and pre-ladder invoice count/amount.
   - `stages`: always the three ladder stages with customer, invoice and amount totals.
   - `customers`: priority order; each has `priority`, `invoice_count`, `amount_cents`, `stage`, `stage_label`, `next_action_date`, `next_action`, `max_days_past_due`, `oldest_due_date`, `contact_email` and per-invoice detail.
-- **`collection.letters`**: one Chinese `.txt` draft per chased customer under `$DSH_HOME/dsh-ar-collection/letters/`. Each has a salutation, aging summary, detail table (invoice no / due date / days overdue / outstanding), payment deadline and contact placeholders. Returns filename, path, `sha256` and bytes. **Never sends, never uses the network.**
-- **`collection.export`**: writes the collection list as CSV under `$DSH_HOME/dsh-ar-collection/exports/` with exactly six fixed columns; returns path, `sha256`, bytes and row counts. With `include_settled=true`, settled invoices are appended after each customer's chase rows (settled stage label, empty action date).
+- **`collection_letters`**: one Chinese `.txt` draft per chased customer under `$DSH_HOME/dsh-ar-collection/letters/`. Each has a salutation, aging summary, detail table (invoice no / due date / days overdue / outstanding), payment deadline and contact placeholders. Returns filename, path, `sha256` and bytes. **Never sends, never uses the network.**
+- **`collection_export`**: writes the collection list as CSV under `$DSH_HOME/dsh-ar-collection/exports/` with exactly six fixed columns; returns path, `sha256`, bytes and row counts. With `include_settled=true`, settled invoices are appended after each customer's chase rows (settled stage label, empty action date).
 
 The stage labels and the export header are fixed Chinese tokens:
 
@@ -182,8 +182,8 @@ The plugin itself has no cordis config keys (`cordis.patch.yml` only `insert`s o
 | `days` | `[7,15,30]` | Start day of each of the three ladder rungs; three strictly increasing positive integers, e.g. `[3,5,10]`, `[10,20,45]` |
 | `min_amount_cents` | `0` | Minimum chased total **per customer** (integer cents); customers below it are skipped whole |
 | `include_settled` | `false` | `true` lists settled-only customers with the settled stage label and appends settled rows to the export; letters still cover chase customers only |
-| `filename_prefix` | `letter` | `collection.letters` only: letter filename prefix |
-| `filename` | derived from `as_of` | `collection.export` only: export filename, `[A-Za-z0-9._-]` characters only |
+| `filename_prefix` | `letter` | `collection_letters` only: letter filename prefix |
+| `filename` | derived from `as_of` | `collection_export` only: export filename, `[A-Za-z0-9._-]` characters only |
 
 Tests can override the local write root with the `DSH_AR_COLLECTION_HOME` environment variable; the default is exactly `$DSH_HOME/dsh-ar-collection`.
 
@@ -194,14 +194,14 @@ Write: `$DSH_HOME/dsh-ar-collection/letters/` (letter drafts) and `$DSH_HOME/dsh
 Network: no.
 External systems: none.
 
-`collection.plan` is **R0** (read-only). `collection.letters` and `collection.export` are **R1** (local write under the two folders above). `DSH_AR_COLLECTION_HOME` can override the local write root for tests; the default is exactly `$DSH_HOME/dsh-ar-collection`.
+`collection_plan` is **R0** (read-only). `collection_letters` and `collection_export` are **R1** (local write under the two folders above). `DSH_AR_COLLECTION_HOME` can override the local write root for tests; the default is exactly `$DSH_HOME/dsh-ar-collection`.
 
 ## FAQ
 
 <details>
 <summary>Are letters sent automatically?</summary>
 
-No. `collection.letters` writes `.txt` drafts locally and never calls email, SMS, IM, HTTP or any external system. Contact name, phone and a missing email stay as placeholders; a human must review and complete them before sending. This package does not make the send decision for you.
+No. `collection_letters` writes `.txt` drafts locally and never calls email, SMS, IM, HTTP or any external system. Contact name, phone and a missing email stay as placeholders; a human must review and complete them before sending. This package does not make the send decision for you.
 
 </details>
 
@@ -242,7 +242,7 @@ No. It reads the named CSV, writes only under the two folders below `$DSH_HOME/d
 
 ## Version
 
-`0.1.0` · 83 tests pass (`node --test test/*.test.mjs`).
+`0.2.0` · 85 tests pass (`node --test test/*.test.mjs`).
 
 ## Errors
 

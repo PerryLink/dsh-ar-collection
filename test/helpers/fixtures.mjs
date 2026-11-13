@@ -45,5 +45,5 @@ export function assertErrorCode(error, code) {
 }
 
 export async function planFor(tools, overrides = {}) {
-  return tools['collection.plan'].execute({ path: samplePath, as_of: AS_OF, ...overrides }, exec)
+  return tools['collection_plan'].execute({ path: samplePath, as_of: AS_OF, ...overrides }, exec)
 }

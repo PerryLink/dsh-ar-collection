@@ -38,7 +38,7 @@ test('include_settled adds a settled-only customer after every chase customer', 
     '甲公司,INV-1,2026-06-20,100000,0,a@example.com',
     '乙公司,INV-2,2026-05-01,50000,50000,b@example.com',
   ])
-  const plan = await toolMap(baseDir)['collection.plan'].execute(
+  const plan = await toolMap(baseDir)['collection_plan'].execute(
     { path: file, as_of: AS_OF, include_settled: true },
     { callId: 'test' },
   )
@@ -74,10 +74,10 @@ test('a fully settled ledger is E_COLLECTION_EMPTY by default and a settled plan
   ])
   const tools = toolMap(baseDir)
   await assert.rejects(
-    () => tools['collection.plan'].execute({ path: file, as_of: AS_OF }, { callId: 'test' }),
+    () => tools['collection_plan'].execute({ path: file, as_of: AS_OF }, { callId: 'test' }),
     (error) => assertErrorCode(error, 'E_COLLECTION_EMPTY'),
   )
-  const plan = await tools['collection.plan'].execute(
+  const plan = await tools['collection_plan'].execute(
     { path: file, as_of: AS_OF, include_settled: true },
     { callId: 'test' },
   )
@@ -93,7 +93,7 @@ test('open invoices before the first rung stay out of the plan but are counted',
     '甲公司,INV-2,2026-06-28,20000,0,a@example.com',
     '甲公司,INV-3,2026-07-15,30000,0,a@example.com',
   ])
-  const plan = await toolMap(baseDir)['collection.plan'].execute(
+  const plan = await toolMap(baseDir)['collection_plan'].execute(
     { path: file, as_of: AS_OF },
     { callId: 'test' },
   )
@@ -116,8 +116,8 @@ test('a custom ladder changes which stage a customer lands in', async (t) => {
   const dir = await makeTemp(t)
   const file = await writeCollection(dir, 'ladder.csv', ['甲公司,INV-1,2026-06-20,100000,0,a@example.com'])
   const tools = toolMap(baseDir)
-  const normal = await tools['collection.plan'].execute({ path: file, as_of: AS_OF }, { callId: 'test' })
-  const compressed = await tools['collection.plan'].execute(
+  const normal = await tools['collection_plan'].execute({ path: file, as_of: AS_OF }, { callId: 'test' })
+  const compressed = await tools['collection_plan'].execute(
     { path: file, as_of: AS_OF, days: [3, 5, 10] },
     { callId: 'test' },
   )

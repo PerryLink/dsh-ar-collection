@@ -185,7 +185,7 @@ const stageCountsSchema = {
 
 export function createTools(deps: ToolDeps) {
   const plan = defineTool({
-    name: 'collection.plan',
+    name: 'collection_plan',
     description:
       'Build a per-customer receivables collection plan from a local CSV (customer, invoice_no, due_date, amount_cents, paid_cents, contact_email). Policy: reminder ladder days=[7,15,30], min_amount_cents and include_settled. Returns chased invoice/amount counts, stage (提醒/催告/升级), next action date and priority order. Read-only.',
     parameters: policyParameters,
@@ -202,7 +202,7 @@ export function createTools(deps: ToolDeps) {
   })
 
   const letters = defineTool({
-    name: 'collection.letters',
+    name: 'collection_letters',
     description:
       'Generate one Chinese collection-letter draft (.txt) per customer in the plan and save it under $DSH_HOME/dsh-ar-collection/letters. Each letter has a salutation, aging summary, invoice detail table, payment deadline and contact placeholders. Local only: never sends or uploads; no network.',
     parameters: {
@@ -234,7 +234,7 @@ export function createTools(deps: ToolDeps) {
   })
 
   const exportTool = defineTool({
-    name: 'collection.export',
+    name: 'collection_export',
     description:
       'Write the collection list as CSV under $DSH_HOME/dsh-ar-collection/exports: columns 客户/票号/到期日/金额/阶梯/动作日期, one row per chased invoice in priority order. include_settled=true also appends settled invoices with stage 已结清. Returns path, sha256, bytes and row counts.',
     parameters: {

@@ -9,15 +9,15 @@ import { AS_OF, exec, samplePath } from './helpers/fixtures.mjs'
 
 const baseDir = path.join(os.tmpdir(), 'dsh-ar-collection-smoke')
 
-test('createTools exposes the three collection.* tools with unique names', () => {
+test('createTools exposes the three collection_* tools with unique names', () => {
   const tools = createTools({ baseDir })
   assert.deepEqual(
     tools.map((tool) => tool.name),
-    ['collection.plan', 'collection.letters', 'collection.export'],
+    ['collection_plan', 'collection_letters', 'collection_export'],
   )
   assert.equal(new Set(tools.map((tool) => tool.name)).size, 3)
   for (const tool of tools) {
-    assert.ok(tool.name.startsWith('collection.'))
+    assert.ok(tool.name.startsWith('collection_'))
     assert.ok(tool.description.length > 0)
     assert.equal(typeof tool.execute, 'function')
     assert.equal(typeof tool.output.render, 'function')
@@ -48,8 +48,8 @@ test('apply() registers all three tools and writes letters plus export under the
   assert.deepEqual(plugin.inject, ['tools'])
   assert.equal(registered.length, 3)
 
-  const letters = registered.find((tool) => tool.name === 'collection.letters')
-  const exporter = registered.find((tool) => tool.name === 'collection.export')
+  const letters = registered.find((tool) => tool.name === 'collection_letters')
+  const exporter = registered.find((tool) => tool.name === 'collection_export')
   const letterResult = await letters.execute({ path: samplePath, as_of: AS_OF }, exec)
   const exportResult = await exporter.execute({ path: samplePath, as_of: AS_OF }, exec)
   assert.equal(letterResult.letter_count, 4)
@@ -60,8 +60,8 @@ test('apply() registers all three tools and writes letters plus export under the
 
 test('every tool render returns exactly one text block', async () => {
   const tools = Object.fromEntries(createTools({ baseDir }).map((tool) => [tool.name, tool]))
-  const plan = await tools['collection.plan'].execute({ path: samplePath, as_of: AS_OF }, exec)
-  const renderedPlan = tools['collection.plan'].output.render({ path: samplePath, as_of: AS_OF }, plan)
+  const plan = await tools['collection_plan'].execute({ path: samplePath, as_of: AS_OF }, exec)
+  const renderedPlan = tools['collection_plan'].output.render({ path: samplePath, as_of: AS_OF }, plan)
   assert.equal(renderedPlan.length, 1)
   assert.equal(renderedPlan[0].type, 'text')
   assert.match(renderedPlan[0].text, /collection plan 2026-06-30: 4 customer\(s\) \/ 7 invoice\(s\)/)

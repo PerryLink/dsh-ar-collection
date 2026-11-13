@@ -16,7 +16,7 @@ Design notes
   customers / 7 invoices / 1,008,000.00 CNY, 1-1-2 customers per stage, and
   priority #2 (154,000) outranks #3 (330,000) because stage comes first.
 * Flow: a stage-board grammar, not a row of five boxes: the read-only CSV and
-  the policy converge on collection.plan, whose 7/15/30-day ladder places each
+  the policy converge on collection_plan, whose 7/15/30-day ladder places each
   overdue invoice into one of three stage columns (提醒 / 催告 / 升级); the
   customer cards inside those columns are ordered by the real priority rule
   (stage > amount > days past due > name). Only then do the three local
@@ -423,7 +423,7 @@ def flow_svg(skin_name: str) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" '
         f'viewBox="0 0 {w} {h}" role="img" aria-label="dsh-ar-collection '
         f'structure: one read-only receivables CSV plus a policy feed '
-        f'collection.plan; the 7/15/30-day ladder places 7 overdue invoices '
+        f'collection_plan; the 7/15/30-day ladder places 7 overdue invoices '
         f'into remind / notice / escalate columns and customers are ranked by '
         f'stage, amount and days past due; three local artefacts follow - the '
         f'plan report, 4 Chinese letter drafts and a 7-row collection-list CSV">',
@@ -478,7 +478,7 @@ def flow_svg(skin_name: str) -> str:
     # ------------------------------------------------------------ plan strip
     p += [
         f'<g filter="url(#soft)">{rect(288, 124, 768, 72, s["zone"], s["zone_edge"], radius=18)}</g>',
-        text(304, 152, "collection.plan · R0", 20, s["text"], bold=True),
+        text(304, 152, "collection_plan · R0", 20, s["text"], bold=True),
         text(304, 178, "as_of 2026-06-30 · days [7,15,30] · "
                        "min_amount_cents 0 · include_settled false", 14,
              s["sub"]),
@@ -537,19 +537,19 @@ def flow_svg(skin_name: str) -> str:
 
     # --------------------------------------------------------- outputs band
     out_cards = [
-        (40, "collection.plan · R0", [
+        (40, "collection_plan · R0", [
             ("as_of · source_sha256 · policy", s["sub"]),
             ("totals · stages[3] · customers[4]", s["sub"]),
             ("priority · stage · next_action_date", s["sub"]),
             ("→ 7 invoices · ¥1,008,000", s["accent"]),
         ]),
-        (386, "collection.letters · R1", [
+        (386, "collection_letters · R1", [
             ("1 .txt per chase customer · 4", s["sub"]),
             ("pay_by as_of+10 / +7 / +3", s["sub"]),
             ("→ $DSH_HOME/dsh-ar-collection/", s["sub"]),
             ("letters/letter-01.txt … -04.txt", s["accent"]),
         ]),
-        (732, "collection.export · R1", [
+        (732, "collection_export · R1", [
             ("rows 7 + header · 4 customers", s["sub"]),
             ("客户,票号,到期日,金额,阶梯,动作日期", s["sub"]),
             ("→ exports/", s["sub"]),
