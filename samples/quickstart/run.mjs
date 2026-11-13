@@ -32,15 +32,15 @@ async function run() {
     const tools = Object.fromEntries(createTools({ baseDir: tempDir }).map((tool) => [tool.name, tool]))
     const exec = { callId: 'quickstart' }
 
-    const plan = await tools['collection.plan'].execute(
+    const plan = await tools['collection_plan'].execute(
       { path: samplePath, as_of: AS_OF, days: [7, 15, 30] },
       exec,
     )
-    const lettersResult = await tools['collection.letters'].execute(
+    const lettersResult = await tools['collection_letters'].execute(
       { path: samplePath, as_of: AS_OF, days: [7, 15, 30] },
       exec,
     )
-    const exported = await tools['collection.export'].execute(
+    const exported = await tools['collection_export'].execute(
       { path: samplePath, as_of: AS_OF, days: [7, 15, 30] },
       exec,
     )

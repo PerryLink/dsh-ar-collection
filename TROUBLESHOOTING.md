@@ -7,7 +7,7 @@
 
 - **症状**：`应收 CSV 有一行读不了：列数、表头或字段不合规（E_COLLECTION_CSV_ROW）｜下一步：对照表头检查这一行：客户、发票号、到期日、金额分、已收金额分、联系人邮箱｜细节：第 7 行有 5 列，表头有 6 列`
 - **原因**：某一行的逗号数量不对，通常是有字段没填、或多了一个逗号；也可能是引号没有闭合，把后面的行吞掉了。
-- **动作**：按报错里的行号打开 CSV，补成 6 列；字段里本身有逗号时用双引号包住，例如 `"江南纺织, 苏州"`。改完重跑 `collection.plan`。
+- **动作**：按报错里的行号打开 CSV，补成 6 列；字段里本身有逗号时用双引号包住，例如 `"江南纺织, 苏州"`。改完重跑 `collection_plan`。
 
 ## 2. 表头缺列或重复（E_COLLECTION_CSV_ROW）
 
@@ -37,7 +37,7 @@
 
 - **症状**：`文件路径或导出文件名不可用（E_COLLECTION_PATH_INVALID）｜下一步：传一个存在的 CSV 文件；导出时只传 [A-Za-z0-9._-] 组成的文件名｜细节：找不到 "/data/ar.csv"，或当前用户读不到`
 - **原因**：路径拼错、文件已移动、传了目录，或当前进程没有读权限。
-- **动作**：用绝对路径确认文件存在且可读；不要把目录当文件传。确认后重跑 `collection.plan`。
+- **动作**：用绝对路径确认文件存在且可读；不要把目录当文件传。确认后重跑 `collection_plan`。
 
 ## 7. 导出文件名不安全（E_COLLECTION_PATH_INVALID）
 
@@ -49,13 +49,13 @@
 
 - **症状**：`没有可催收的发票：全部已结清，或没有发票越过第一个提醒阶梯（E_COLLECTION_EMPTY）｜下一步：确认 as_of 与提醒阶梯；需要看已结清客户时传 include_settled=true`
 - **原因**：CSV 为空或只有表头；所有发票都已结清；所有未收发票都还没到第一档（默认 7 天）；或 `min_amount_cents` 把所有客户都过滤掉了。
-- **动作**：先用 `collection.plan` 看 `totals.pre_ladder_invoices` 和 `totals.below_min_customers`，确认 `as_of`、`days`、`min_amount_cents` 是否符合预期；只想核对已结清客户时传 `include_settled=true`。`collection.letters` 在没有应催客户时也会报这个码，因为确实没有函可写。
+- **动作**：先用 `collection_plan` 看 `totals.pre_ladder_invoices` 和 `totals.below_min_customers`，确认 `as_of`、`days`、`min_amount_cents` 是否符合预期；只想核对已结清客户时传 `include_settled=true`。`collection_letters` 在没有应催客户时也会报这个码，因为确实没有函可写。
 
 ## 9. 计划里的阶梯或动作日期和手工表不一样
 
 - **症状**：没有报错，但某个客户落在“催告”而不是“提醒”，或 `next_action_date` 和手工表不同。
 - **原因**：本包的客户阶梯取该客户**逾期最久**的一张发票；下次动作日期取该客户所有应催发票“下一档日期”的**最早值**；`升级` 档没有下一档，按 `as_of + 第一档天数` 复盘。另外，未越过第一档的发票不会进入计划。
-- **动作**：用 `collection.plan` 的 `customers[].invoices` 对到具体发票的 `days_past_due` 与 `next_action_date`，再用 `collection.export` 导出清单核对。如果仍然不一致，附上脱敏后的两行输入和完整输出。
+- **动作**：用 `collection_plan` 的 `customers[].invoices` 对到具体发票的 `days_past_due` 与 `next_action_date`，再用 `collection_export` 导出清单核对。如果仍然不一致，附上脱敏后的两行输入和完整输出。
 
 ## 10. 生成了函件但不想发送 / 担心联网
 
@@ -72,4 +72,4 @@ node scripts/gate.mjs                     # 元数据 + 验收门
 ```
 
 仍失败时请在 <https://github.com/PerryLink/dsh-ar-collection/issues> 附上：包版本、最小合成 CSV（或生成脚本）、
-`collection.plan` / `collection.letters` / `collection.export` 的完整报错行、Node 与 DSH 版本。**不要附真实客户应收明细。**
+`collection_plan` / `collection_letters` / `collection_export` 的完整报错行、Node 与 DSH 版本。**不要附真实客户应收明细。**

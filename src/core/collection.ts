@@ -366,8 +366,8 @@ export interface CollectionPlanContext {
 const STAGE_RANK: Record<StageKey, number> = { escalate: 3, notice: 2, remind: 1, settled: 0 }
 
 /**
- * Build the single source of truth for `collection.plan`, `collection.letters`
- * and `collection.export`.
+ * Build the single source of truth for `collection_plan`, `collection_letters`
+ * and `collection_export`.
  *
  * - A chase candidate is an open invoice whose days-past-due reaches the first
  *   ladder rung; earlier open invoices stay out of the plan until they reach it.

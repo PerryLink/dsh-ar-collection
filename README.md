@@ -40,7 +40,7 @@ dsh plugin --profile <profile> add dsh-ar-collection
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="dsh-ar-collection 结构图：只读应收 CSV 与策略参数进入 collection.plan，按 as_of 和 7/15/30 天阶梯把 7 张逾期票分进提醒 / 催告 / 升级三栏，客户按阶梯 → 金额 → 逾期天数排优先级；随后分叉为 collection.plan 报告、collection.letters 的 4 封中文函稿和 collection.export 的 7 行清单 CSV，全部只写本地">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="dsh-ar-collection 结构图：只读应收 CSV 与策略参数进入 collection_plan，按 as_of 和 7/15/30 天阶梯把 7 张逾期票分进提醒 / 催告 / 升级三栏，客户按阶梯 → 金额 → 逾期天数排优先级；随后分叉为 collection_plan 报告、collection_letters 的 4 封中文函稿和 collection_export 的 7 行清单 CSV，全部只写本地">
 </picture>
 
 ## 适合 / 不适合
@@ -92,9 +92,9 @@ dsh plugin --profile <profile> add dsh-ar-collection
 
 | 工具 | 用途 | 风险 |
 |---|---|---|
-| `collection.plan` | 读取应收 CSV，按阶梯生成每个客户的应催票数/金额、阶梯、下次动作日期与优先级 | R0 |
-| `collection.letters` | 为每个应催客户生成中文催收函 `.txt` 草稿，写本地 `letters/`；不发送、不联网 | R1 本地写 |
-| `collection.export` | 导出催收清单 CSV（客户/票号/到期日/金额/阶梯/动作日期），返回路径与 sha256 | R1 本地写 |
+| `collection_plan` | 读取应收 CSV，按阶梯生成每个客户的应催票数/金额、阶梯、下次动作日期与优先级 | R0 |
+| `collection_letters` | 为每个应催客户生成中文催收函 `.txt` 草稿，写本地 `letters/`；不发送、不联网 | R1 本地写 |
+| `collection_export` | 导出催收清单 CSV（客户/票号/到期日/金额/阶梯/动作日期），返回路径与 sha256 | R1 本地写 |
 
 ## 输入
 
@@ -109,12 +109,12 @@ dsh plugin --profile <profile> add dsh-ar-collection
 
 ## 输出
 
-- **`collection.plan`**：`{ as_of, source_sha256, policy, totals, stages, customers }`。
+- **`collection_plan`**：`{ as_of, source_sha256, policy, totals, stages, customers }`。
   - `totals`：总行数、未收发票数、已结清发票数、应催票数/客户数/金额、三档客户数、低于最低金额被跳过的客户数、未到首档的发票数与金额。
   - `stages`：固定三档 `提醒` / `催告` / `升级`，含每档客户数、票数、金额。
   - `customers`：按优先级排序；每个客户有 `priority`、`invoice_count`、`amount_cents`、`stage`、`stage_label`、`next_action_date`、`next_action`、`max_days_past_due`、`oldest_due_date`、`contact_email`，以及逐票明细。
-- **`collection.letters`**：给每个应催客户生成一份中文 `.txt` 草稿，写到 `$DSH_HOME/dsh-ar-collection/letters/`。每封含抬头、账龄摘要、明细表（票号/到期日/逾期天数/未收金额）、付款期限、联系人占位。返回文件名、路径、`sha256`、字节数。**不发送、不联网。**
-- **`collection.export`**：把催收清单写成 CSV 到 `$DSH_HOME/dsh-ar-collection/exports/`，列固定为 `客户,票号,到期日,金额,阶梯,动作日期`；返回路径、`sha256`、字节数和行数。`include_settled=true` 时会在每个客户应催行后追加已结清发票（阶梯 `已结清`，动作日期留空）。
+- **`collection_letters`**：给每个应催客户生成一份中文 `.txt` 草稿，写到 `$DSH_HOME/dsh-ar-collection/letters/`。每封含抬头、账龄摘要、明细表（票号/到期日/逾期天数/未收金额）、付款期限、联系人占位。返回文件名、路径、`sha256`、字节数。**不发送、不联网。**
+- **`collection_export`**：把催收清单写成 CSV 到 `$DSH_HOME/dsh-ar-collection/exports/`，列固定为 `客户,票号,到期日,金额,阶梯,动作日期`；返回路径、`sha256`、字节数和行数。`include_settled=true` 时会在每个客户应催行后追加已结清发票（阶梯 `已结清`，动作日期留空）。
 
 ## 规则
 
@@ -154,8 +154,8 @@ node samples/quickstart/run.mjs --check
 | `days` | `[7,15,30]` | 三档阶梯的起始天数；必须 3 个严格递增的正整数，如 `[3,5,10]`、`[10,20,45]` |
 | `min_amount_cents` | `0` | 按**客户应催总额**过滤的最低金额（整数分）；低于阈值整户跳过 |
 | `include_settled` | `false` | `true` 时已结清客户以 `已结清` 阶段列入计划、导出附已结清行；函件仍只给应催客户 |
-| `filename_prefix` | `letter` | 仅 `collection.letters`：函件文件名前缀 |
-| `filename` | 按 `as_of` 生成 | 仅 `collection.export`：导出文件名，只允许 `[A-Za-z0-9._-]` |
+| `filename_prefix` | `letter` | 仅 `collection_letters`：函件文件名前缀 |
+| `filename` | 按 `as_of` 生成 | 仅 `collection_export`：导出文件名，只允许 `[A-Za-z0-9._-]` |
 
 测试可用环境变量 `DSH_AR_COLLECTION_HOME` 覆盖本地写根目录，默认严格等于 `$DSH_HOME/dsh-ar-collection`。
 
@@ -166,14 +166,14 @@ node samples/quickstart/run.mjs --check
 联网：否。
 外部系统：无。
 
-`collection.plan` 标 **R0**（只读）；`collection.letters` 和 `collection.export` 标 **R1**（本地写，只写上面两个目录）。测试可用 `DSH_AR_COLLECTION_HOME` 覆盖本地写根目录，默认严格等于 `$DSH_HOME/dsh-ar-collection`。
+`collection_plan` 标 **R0**（只读）；`collection_letters` 和 `collection_export` 标 **R1**（本地写，只写上面两个目录）。测试可用 `DSH_AR_COLLECTION_HOME` 覆盖本地写根目录，默认严格等于 `$DSH_HOME/dsh-ar-collection`。
 
 ## FAQ
 
 <details>
 <summary>催收函会自动发出去吗？</summary>
 
-不会。`collection.letters` 只在本地写 `.txt` 草稿，不调用邮件、短信、IM、HTTP 或任何外部系统。联系人姓名、电话和缺失邮箱都是占位符，发送前必须人工复核并补全。本包不替你作发送决定。
+不会。`collection_letters` 只在本地写 `.txt` 草稿，不调用邮件、短信、IM、HTTP 或任何外部系统。联系人姓名、电话和缺失邮箱都是占位符，发送前必须人工复核并补全。本包不替你作发送决定。
 
 </details>
 
@@ -214,7 +214,7 @@ node samples/quickstart/run.mjs --check
 
 ## 版本
 
-`0.1.0` · 83 项测试通过（`node --test test/*.test.mjs`）。
+`0.2.0` · 85 项测试通过（`node --test test/*.test.mjs`）。
 
 ## 错误码
 

@@ -40,7 +40,7 @@ Aplica una escalera de recordatorios de 7/15/30 días a un libro de cuentas por 
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ar-collection-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="Estructura de dsh-ar-collection: un CSV de cuentas por cobrar de solo lectura y los parámetros de política alimentan collection.plan; la escalera de 7/15/30 días reparte 7 facturas vencidas en las columnas recordatorio / aviso / escalado y ordena a los clientes por escalón, importe y días de atraso; después salen tres artefactos locales: el informe del plan, 4 borradores de cartas en chino y un CSV de lista de cobro de 7 filas">
+  <img src="docs/assets/dsh-ar-collection-flow-v5-light.svg" width="100%" alt="Estructura de dsh-ar-collection: un CSV de cuentas por cobrar de solo lectura y los parámetros de política alimentan collection_plan; la escalera de 7/15/30 días reparte 7 facturas vencidas en las columnas recordatorio / aviso / escalado y ordena a los clientes por escalón, importe y días de atraso; después salen tres artefactos locales: el informe del plan, 4 borradores de cartas en chino y un CSV de lista de cobro de 7 filas">
 </picture>
 
 ## Cuándo encaja y cuándo no
@@ -94,9 +94,9 @@ Los nombres de las herramientas son API estable; las descripciones se mantienen 
 
 | Herramienta | Propósito | Riesgo |
 |---|---|---|
-| `collection.plan` | Lee el CSV de cuentas por cobrar y produce las facturas/importes a reclamar de cada cliente, su escalón, la próxima fecha de acción y la prioridad | R0 |
-| `collection.letters` | Escribe un borrador de carta de cobro china `.txt` por cliente reclamable bajo `letters/`; nunca envía, sin red | R1 escritura local |
-| `collection.export` | Escribe el CSV de la lista de cobro (cliente / factura / vencimiento / importe / escalón / fecha de acción), devolviendo ruta + sha256 | R1 escritura local |
+| `collection_plan` | Lee el CSV de cuentas por cobrar y produce las facturas/importes a reclamar de cada cliente, su escalón, la próxima fecha de acción y la prioridad | R0 |
+| `collection_letters` | Escribe un borrador de carta de cobro china `.txt` por cliente reclamable bajo `letters/`; nunca envía, sin red | R1 escritura local |
+| `collection_export` | Escribe el CSV de la lista de cobro (cliente / factura / vencimiento / importe / escalón / fecha de acción), devolviendo ruta + sha256 | R1 escritura local |
 
 ## Entrada
 
@@ -122,12 +122,12 @@ Los nombres de las herramientas son API estable; las descripciones se mantienen 
 
 ## Salida
 
-- **`collection.plan`**: `{ as_of, source_sha256, policy, totals, stages, customers }`.
+- **`collection_plan`**: `{ as_of, source_sha256, policy, totals, stages, customers }`.
   - `totals`: filas del libro, facturas abiertas/liquidadas, facturas/clientes/importe reclamables, clientes por escalón, clientes omitidos por el importe mínimo y facturas/importe previos a la escalera.
   - `stages`: siempre los tres escalones de la escalera con totales de clientes, facturas e importe.
   - `customers`: ordenados por prioridad; cada uno tiene `priority`, `invoice_count`, `amount_cents`, `stage`, `stage_label`, `next_action_date`, `next_action`, `max_days_past_due`, `oldest_due_date`, `contact_email` y el detalle por factura.
-- **`collection.letters`**: un borrador `.txt` en chino por cliente reclamable bajo `$DSH_HOME/dsh-ar-collection/letters/`. Cada carta lleva saludo, resumen de antigüedad, tabla de detalle (nº de factura / vencimiento / días de mora / pendiente), fecha límite de pago y marcadores de contacto. Devuelve nombre de archivo, ruta, `sha256` y bytes. **Nunca envía, nunca usa la red.**
-- **`collection.export`**: escribe la lista de cobro como CSV bajo `$DSH_HOME/dsh-ar-collection/exports/` con exactamente seis columnas fijas; devuelve ruta, `sha256`, bytes y recuentos de filas. Con `include_settled=true`, las facturas liquidadas se añaden tras las filas reclamables de cada cliente (etiqueta de escalón `已结清`, fecha de acción vacía).
+- **`collection_letters`**: un borrador `.txt` en chino por cliente reclamable bajo `$DSH_HOME/dsh-ar-collection/letters/`. Cada carta lleva saludo, resumen de antigüedad, tabla de detalle (nº de factura / vencimiento / días de mora / pendiente), fecha límite de pago y marcadores de contacto. Devuelve nombre de archivo, ruta, `sha256` y bytes. **Nunca envía, nunca usa la red.**
+- **`collection_export`**: escribe la lista de cobro como CSV bajo `$DSH_HOME/dsh-ar-collection/exports/` con exactamente seis columnas fijas; devuelve ruta, `sha256`, bytes y recuentos de filas. Con `include_settled=true`, las facturas liquidadas se añaden tras las filas reclamables de cada cliente (etiqueta de escalón `已结清`, fecha de acción vacía).
 
 Las etiquetas de escalón y la cabecera del CSV exportado son tokens chinos fijos:
 
@@ -182,8 +182,8 @@ El plugin en sí no tiene claves de configuración cordis (`cordis.patch.yml` so
 | `days` | `[7,15,30]` | Día de inicio de cada peldaño; tres enteros positivos estrictamente crecientes, p. ej. `[3,5,10]`, `[10,20,45]` |
 | `min_amount_cents` | `0` | Total reclamable mínimo **por cliente** (céntimos enteros); los clientes por debajo se omiten enteros |
 | `include_settled` | `false` | `true` lista los clientes solo liquidados con el escalón `已结清` y añade filas liquidadas al export; las cartas siguen cubriendo solo clientes reclamables |
-| `filename_prefix` | `letter` | Solo `collection.letters`: prefijo del nombre de archivo de las cartas |
-| `filename` | derivado de `as_of` | Solo `collection.export`: nombre del archivo exportado, solo caracteres `[A-Za-z0-9._-]` |
+| `filename_prefix` | `letter` | Solo `collection_letters`: prefijo del nombre de archivo de las cartas |
+| `filename` | derivado de `as_of` | Solo `collection_export`: nombre del archivo exportado, solo caracteres `[A-Za-z0-9._-]` |
 
 Las pruebas pueden sobrescribir la raíz de escritura local con la variable de entorno `DSH_AR_COLLECTION_HOME`; el valor por defecto es exactamente `$DSH_HOME/dsh-ar-collection`.
 
@@ -194,14 +194,14 @@ Escritura: `$DSH_HOME/dsh-ar-collection/letters/` (borradores de cartas) y `$DSH
 Red: no.
 Sistemas externos: ninguno.
 
-`collection.plan` es **R0** (solo lectura). `collection.letters` y `collection.export` son **R1** (escritura local solo en las dos carpetas anteriores). `DSH_AR_COLLECTION_HOME` puede sobrescribir la raíz de escritura local en pruebas; el valor por defecto es exactamente `$DSH_HOME/dsh-ar-collection`.
+`collection_plan` es **R0** (solo lectura). `collection_letters` y `collection_export` son **R1** (escritura local solo en las dos carpetas anteriores). `DSH_AR_COLLECTION_HOME` puede sobrescribir la raíz de escritura local en pruebas; el valor por defecto es exactamente `$DSH_HOME/dsh-ar-collection`.
 
 ## FAQ
 
 <details>
 <summary>¿Las cartas se envían automáticamente?</summary>
 
-No. `collection.letters` escribe borradores `.txt` en local y nunca llama a email, SMS, IM, HTTP ni a ningún sistema externo. Nombre de contacto, teléfono y un email ausente quedan como marcadores; una persona debe revisarlos y completarlos antes de enviar. Este paquete no decide el envío por ti.
+No. `collection_letters` escribe borradores `.txt` en local y nunca llama a email, SMS, IM, HTTP ni a ningún sistema externo. Nombre de contacto, teléfono y un email ausente quedan como marcadores; una persona debe revisarlos y completarlos antes de enviar. Este paquete no decide el envío por ti.
 
 </details>
 
@@ -242,7 +242,7 @@ No. Lee el CSV indicado, escribe solo bajo las dos carpetas de `$DSH_HOME/dsh-ar
 
 ## Versión
 
-`0.1.0` · 83 pruebas pasan (`node --test test/*.test.mjs`).
+`0.2.0` · 85 pruebas pasan (`node --test test/*.test.mjs`).
 
 ## Códigos de error
 

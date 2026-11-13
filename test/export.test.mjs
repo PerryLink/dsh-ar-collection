@@ -14,9 +14,9 @@ async function setup(t) {
   return { dir, baseDir, tools: toolMap(baseDir) }
 }
 
-test('collection.export writes the six-column collection list in priority order', async (t) => {
+test('collection_export writes the six-column collection list in priority order', async (t) => {
   const { baseDir, tools } = await setup(t)
-  const result = await tools['collection.export'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
+  const result = await tools['collection_export'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
   assert.equal(result.filename, 'collection-2026-06-30.csv')
   assert.equal(result.rows, 7)
   assert.equal(result.invoice_count, 7)
@@ -39,7 +39,7 @@ test('collection.export writes the six-column collection list in priority order'
 
 test('include_settled appends settled rows with an empty action date', async (t) => {
   const { tools } = await setup(t)
-  const result = await tools['collection.export'].execute(
+  const result = await tools['collection_export'].execute(
     { path: samplePath, as_of: AS_OF, include_settled: true },
     { callId: 'test' },
   )
@@ -54,7 +54,7 @@ test('include_settled appends settled rows with an empty action date', async (t)
 
 test('a custom filename is honoured and the returned hash matches the file', async (t) => {
   const { tools } = await setup(t)
-  const result = await tools['collection.export'].execute(
+  const result = await tools['collection_export'].execute(
     { path: samplePath, as_of: AS_OF, filename: 'my-collection.csv' },
     { callId: 'test' },
   )
@@ -63,11 +63,11 @@ test('a custom filename is honoured and the returned hash matches the file', asy
   assert.equal(result.sha256, sha256(await readFile(result.path, 'utf8')))
 })
 
-test('collection.export rejects traversal, absolute paths and unsafe names', async (t) => {
+test('collection_export rejects traversal, absolute paths and unsafe names', async (t) => {
   const { tools } = await setup(t)
   for (const filename of ['../evil.csv', '../../evil.csv', '/tmp/evil.csv', 'a/b.csv', 'with space.csv', '表格.csv']) {
     await assert.rejects(
-      () => tools['collection.export'].execute({ path: samplePath, as_of: AS_OF, filename }, { callId: 'test' }),
+      () => tools['collection_export'].execute({ path: samplePath, as_of: AS_OF, filename }, { callId: 'test' }),
       (error) => error.code === 'E_COLLECTION_PATH_INVALID',
       filename,
     )
@@ -76,15 +76,15 @@ test('collection.export rejects traversal, absolute paths and unsafe names', asy
 
 test('a second export to the same file overwrites it deterministically', async (t) => {
   const { tools } = await setup(t)
-  const first = await tools['collection.export'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
-  const second = await tools['collection.export'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
+  const first = await tools['collection_export'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
+  const second = await tools['collection_export'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
   assert.equal(first.path, second.path)
   assert.equal(first.sha256, second.sha256)
 })
 
 test('min_amount_cents narrows the exported rows too', async (t) => {
   const { tools } = await setup(t)
-  const result = await tools['collection.export'].execute(
+  const result = await tools['collection_export'].execute(
     { path: samplePath, as_of: AS_OF, min_amount_cents: 20_000_000 },
     { callId: 'test' },
   )

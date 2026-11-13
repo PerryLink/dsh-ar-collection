@@ -40,7 +40,7 @@ test('all five codes are reachable through the public tools', async (t) => {
   const dir = await makeTemp(t)
   const tools = toolMap(path.join(dir, 'store'))
   const callPlan = (file, extra = {}) =>
-    tools['collection.plan'].execute({ path: file, as_of: AS_OF, ...extra }, { callId: 'test' })
+    tools['collection_plan'].execute({ path: file, as_of: AS_OF, ...extra }, { callId: 'test' })
 
   const badRow = await writeCollection(dir, 'bad-row.csv', [
     '甲公司,INV-1,2026-06-01,100000,0',
@@ -53,7 +53,7 @@ test('all five codes are reachable through the public tools', async (t) => {
   await assert.rejects(() => callPlan(badDate), (error) => assertErrorCode(error, 'E_COLLECTION_DATE_INVALID'))
   await assert.rejects(() => callPlan(badAmount), (error) => assertErrorCode(error, 'E_COLLECTION_AMOUNT'))
   await assert.rejects(
-    () => tools['collection.export'].execute({ path: samplePath, as_of: AS_OF, filename: '../x.csv' }, { callId: 'test' }),
+    () => tools['collection_export'].execute({ path: samplePath, as_of: AS_OF, filename: '../x.csv' }, { callId: 'test' }),
     (error) => assertErrorCode(error, 'E_COLLECTION_PATH_INVALID'),
   )
   await assert.rejects(() => callPlan(empty), (error) => assertErrorCode(error, 'E_COLLECTION_EMPTY'))

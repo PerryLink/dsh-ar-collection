@@ -18,14 +18,14 @@ async function generate(t, options = {}) {
   const dir = await makeTemp(t)
   const baseDir = path.join(dir, 'store')
   const tools = toolMap(baseDir)
-  const result = await tools['collection.letters'].execute(
+  const result = await tools['collection_letters'].execute(
     { path: samplePath, as_of: AS_OF, ...options },
     { callId: 'test' },
   )
   return { dir, baseDir, tools, result }
 }
 
-test('collection.letters writes one Chinese draft per chase customer', async (t) => {
+test('collection_letters writes one Chinese draft per chase customer', async (t) => {
   const { baseDir, result } = await generate(t)
   assert.equal(result.as_of, AS_OF)
   assert.equal(result.letter_count, 4)
@@ -83,7 +83,7 @@ test('letters use stage-specific payment deadlines and quote a customer name wit
 
 test('a safe filename prefix is honoured and an unsafe one is E_COLLECTION_PATH_INVALID', async (t) => {
   const { tools } = await generate(t)
-  const prefixed = await tools['collection.letters'].execute(
+  const prefixed = await tools['collection_letters'].execute(
     { path: samplePath, as_of: AS_OF, filename_prefix: 'batch-2026' },
     { callId: 'test' },
   )
@@ -91,7 +91,7 @@ test('a safe filename prefix is honoured and an unsafe one is E_COLLECTION_PATH_
   for (const filename_prefix of ['../evil', 'a/b', 'with space', '表格']) {
     await assert.rejects(
       () =>
-        tools['collection.letters'].execute(
+        tools['collection_letters'].execute(
           { path: samplePath, as_of: AS_OF, filename_prefix },
           { callId: 'test' },
         ),
@@ -103,8 +103,8 @@ test('a safe filename prefix is honoured and an unsafe one is E_COLLECTION_PATH_
 
 test('regenerating the same letters overwrites them with identical hashes', async (t) => {
   const { tools } = await generate(t)
-  const first = await tools['collection.letters'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
-  const second = await tools['collection.letters'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
+  const first = await tools['collection_letters'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
+  const second = await tools['collection_letters'].execute({ path: samplePath, as_of: AS_OF }, { callId: 'test' })
   assert.deepEqual(
     first.letters.map((letter) => [letter.filename, letter.sha256]),
     second.letters.map((letter) => [letter.filename, letter.sha256]),
@@ -119,7 +119,7 @@ test('a fully settled ledger has no letter to generate', async (t) => {
   const tools = toolMap(path.join(dir, 'store'))
   await assert.rejects(
     () =>
-      tools['collection.letters'].execute(
+      tools['collection_letters'].execute(
         { path: file, as_of: AS_OF, include_settled: true },
         { callId: 'test' },
       ),

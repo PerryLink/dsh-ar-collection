@@ -41,22 +41,22 @@ async function main() {
     const tools = Object.fromEntries(createTools({ baseDir }).map((tool) => [tool.name, tool]))
     const exec = { callId: 'acceptance' }
 
-    const plan = await tools['collection.plan'].execute({ path: sample, as_of: AS_OF }, exec)
-    const letters = await tools['collection.letters'].execute({ path: sample, as_of: AS_OF }, exec)
-    const exported = await tools['collection.export'].execute({ path: sample, as_of: AS_OF }, exec)
-    const withSettled = await tools['collection.plan'].execute(
+    const plan = await tools['collection_plan'].execute({ path: sample, as_of: AS_OF }, exec)
+    const letters = await tools['collection_letters'].execute({ path: sample, as_of: AS_OF }, exec)
+    const exported = await tools['collection_export'].execute({ path: sample, as_of: AS_OF }, exec)
+    const withSettled = await tools['collection_plan'].execute(
       { path: sample, as_of: AS_OF, include_settled: true },
       exec,
     )
-    const settledExport = await tools['collection.export'].execute(
+    const settledExport = await tools['collection_export'].execute(
       { path: sample, as_of: AS_OF, include_settled: true, filename: 'acceptance-settled.csv' },
       exec,
     )
-    const minPlan = await tools['collection.plan'].execute(
+    const minPlan = await tools['collection_plan'].execute(
       { path: sample, as_of: AS_OF, min_amount_cents: 20_000_000 },
       exec,
     )
-    const customLadder = await tools['collection.plan'].execute(
+    const customLadder = await tools['collection_plan'].execute(
       { path: sample, as_of: AS_OF, days: [15, 30, 60] },
       exec,
     )
@@ -113,19 +113,19 @@ async function main() {
     writeFileSync(settledFile, 'customer,invoice_no,due_date,amount_cents,paid_cents,contact_email\n甲,INV-1,2026-05-01,100000,100000,a@example.com\n')
 
     const badRowCode = await errorCode(
-      tools['collection.plan'].execute({ path: badRowFile, as_of: AS_OF }, exec),
+      tools['collection_plan'].execute({ path: badRowFile, as_of: AS_OF }, exec),
     )
     const badDateCode = await errorCode(
-      tools['collection.plan'].execute({ path: badDateFile, as_of: AS_OF }, exec),
+      tools['collection_plan'].execute({ path: badDateFile, as_of: AS_OF }, exec),
     )
     const badAmountCode = await errorCode(
-      tools['collection.plan'].execute({ path: badAmountFile, as_of: AS_OF }, exec),
+      tools['collection_plan'].execute({ path: badAmountFile, as_of: AS_OF }, exec),
     )
     const badPathCode = await errorCode(
-      tools['collection.export'].execute({ path: sample, as_of: AS_OF, filename: '../evil.csv' }, exec),
+      tools['collection_export'].execute({ path: sample, as_of: AS_OF, filename: '../evil.csv' }, exec),
     )
     const emptyCode = await errorCode(
-      tools['collection.plan'].execute({ path: settledFile, as_of: AS_OF }, exec),
+      tools['collection_plan'].execute({ path: settledFile, as_of: AS_OF }, exec),
     )
 
     const metrics = [
