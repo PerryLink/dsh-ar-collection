@@ -163,6 +163,11 @@ node samples/quickstart/run.mjs --check
 
 ![dsh-ar-collection quickstart terminal output](docs/assets/quickstart.png)
 
+![dsh-ar-collection quickstart terminal output](docs/assets/dsh-ar-collection-demo.gif)
+
+*The animated version of the same run.*
+
+
 The sample is an 8-row synthetic ledger with 4 customers and 1 settled invoice. It spans all three stages (1 remind / 1 notice / 2 escalate), includes one partial payment and a customer name with a comma, which exercises CSV quoting:
 
 ```text

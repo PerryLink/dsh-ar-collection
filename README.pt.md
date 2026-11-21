@@ -163,6 +163,11 @@ node samples/quickstart/run.mjs --check
 
 ![Saída de terminal real do quickstart do dsh-ar-collection](docs/assets/quickstart.png)
 
+![Saída de terminal real do quickstart do dsh-ar-collection](docs/assets/dsh-ar-collection-demo.gif)
+
+*A versão animada da mesma execução.*
+
+
 O exemplo é um razão sintético de 8 linhas com 4 clientes e 1 fatura liquidada. Cobre os três degraus (1 `提醒` / 1 `催告` / 2 `升级`), inclui um pagamento parcial e um nome de cliente com vírgula, que exercita o escape de aspas do CSV:
 
 ```text

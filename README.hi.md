@@ -163,6 +163,11 @@ node samples/quickstart/run.mjs --check
 
 ![dsh-ar-collection quickstart का वास्तविक टर्मिनल आउटपुट](docs/assets/quickstart.png)
 
+![dsh-ar-collection quickstart का वास्तविक टर्मिनल आउटपुट](docs/assets/dsh-ar-collection-demo.gif)
+
+*उसी असली रन का एनिमेटेड संस्करण।*
+
+
 नमूना 8 पंक्तियों की सिंथेटिक बही है जिसमें 4 ग्राहक और 1 चुकता फ़्राप्ति है। यह तीनों चरणों को छूती है (1 `提醒` / 1 `催告` / 2 `升级`), एक आंशिक भुगतान और कॉमा वाला ग्राहक नाम शामिल है, जो CSV उद्धरण की कसौटी है:
 
 ```text

@@ -163,6 +163,11 @@ node samples/quickstart/run.mjs --check
 
 ![Salida de terminal real del quickstart de dsh-ar-collection](docs/assets/quickstart.png)
 
+![Salida de terminal real del quickstart de dsh-ar-collection](docs/assets/dsh-ar-collection-demo.gif)
+
+*La versión animada de la misma ejecución.*
+
+
 El ejemplo es un libro sintético de 8 filas con 4 clientes y 1 factura liquidada. Cubre los tres escalones (1 `提醒` / 1 `催告` / 2 `升级`), incluye un pago parcial y un nombre de cliente con coma, que ejercita el entrecomillado CSV:
 
 ```text

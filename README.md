@@ -141,6 +141,11 @@ node samples/quickstart/run.mjs --check
 
 ![dsh-ar-collection quickstart 真实运行输出](docs/assets/quickstart.png)
 
+![dsh-ar-collection quickstart 真实运行输出](docs/assets/dsh-ar-collection-demo.gif)
+
+*同一段真实运行的动图版本。*
+
+
 样例是 8 行合成应收、4 个客户、1 张已结清，覆盖三档（1 个提醒 / 1 个催告 / 2 个升级）、一张部分收款，以及一个带逗号的客户名（`"江南纺织, 苏州"`，用于验证 CSV 引号转义）。金标 `samples/quickstart/expected/result.json` 由 `node samples/quickstart/run.mjs --json` 真实产生，不是手写；截图是 `--check` 的真实终端输出。
 
 ## 配置
