@@ -220,7 +220,7 @@ node samples/quickstart/run.mjs --check
 
 ## 版本
 
-`0.2.1` · 85 项测试通过（`node --test test/*.test.mjs`）。
+`0.2.3` · 85 项测试通过（`node --test test/*.test.mjs`）。
 
 ## 错误码
 

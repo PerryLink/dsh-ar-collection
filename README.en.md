@@ -248,7 +248,7 @@ No. It reads the named CSV, writes only under the two folders below `$DSH_HOME/d
 
 ## Version
 
-`0.2.1` · 85 tests pass (`node --test test/*.test.mjs`).
+`0.2.3` · 85 tests pass (`node --test test/*.test.mjs`).
 
 ## Errors
 
