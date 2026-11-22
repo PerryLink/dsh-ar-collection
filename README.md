@@ -11,6 +11,8 @@
 
 面向 DeepSeek Harness 的纯本地应收账款催收插件：读你指定的 CSV，按 7/15/30 天提醒阶梯算清每个客户该催哪几票、什么时候催，草稿与清单只写在你自己的机器上。
 
+最近一次核验：DeepSeek Harness `dsh-v0.2.3-alpha.1`（2026-11-22）。
+
 [安装](#三步上手) · [配置](#配置) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -145,7 +147,6 @@ node samples/quickstart/run.mjs --check
 
 *同一段真实运行的动图版本。*
 
-
 样例是 8 行合成应收、4 个客户、1 张已结清，覆盖三档（1 个提醒 / 1 个催告 / 2 个升级）、一张部分收款，以及一个带逗号的客户名（`"江南纺织, 苏州"`，用于验证 CSV 引号转义）。金标 `samples/quickstart/expected/result.json` 由 `node samples/quickstart/run.mjs --json` 真实产生，不是手写；截图是 `--check` 的真实终端输出。
 
 ## 配置
@@ -219,7 +220,7 @@ node samples/quickstart/run.mjs --check
 
 ## 版本
 
-`0.2.0` · 85 项测试通过（`node --test test/*.test.mjs`）。
+`0.2.1` · 85 项测试通过（`node --test test/*.test.mjs`）。
 
 ## 错误码
 

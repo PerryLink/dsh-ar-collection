@@ -11,6 +11,8 @@
 
 A local-only accounts-receivable collection plugin for DeepSeek Harness: it reads the CSV you name, applies a 7/15/30-day reminder ladder, and works out which invoices each customer should be chased for and when — drafts and lists are written only on your own machine.
 
+Last verified on DeepSeek Harness `dsh-v0.2.3-alpha.1` (2026-11-22).
+
 [Install](#three-step-setup) · [Configuration](#configuration) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -167,7 +169,6 @@ node samples/quickstart/run.mjs --check
 
 *The animated version of the same run.*
 
-
 The sample is an 8-row synthetic ledger with 4 customers and 1 settled invoice. It spans all three stages (1 remind / 1 notice / 2 escalate), includes one partial payment and a customer name with a comma, which exercises CSV quoting:
 
 ```text
@@ -247,7 +248,7 @@ No. It reads the named CSV, writes only under the two folders below `$DSH_HOME/d
 
 ## Version
 
-`0.2.0` · 85 tests pass (`node --test test/*.test.mjs`).
+`0.2.1` · 85 tests pass (`node --test test/*.test.mjs`).
 
 ## Errors
 

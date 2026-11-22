@@ -11,6 +11,8 @@
 
 Un plugin de cobranza puramente local para DeepSeek Harness: lee el CSV que tú indicas, aplica una escalera de recordatorios de 7/15/30 días y calcula qué facturas hay que reclamar a cada cliente y cuándo; los borradores y las listas solo se escriben en tu propia máquina.
 
+Última verificación: DeepSeek Harness `dsh-v0.2.3-alpha.1` (2026-11-22).
+
 [Instalar](#instalación-en-tres-pasos) · [Configuración](#configuración) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -167,7 +169,6 @@ node samples/quickstart/run.mjs --check
 
 *La versión animada de la misma ejecución.*
 
-
 El ejemplo es un libro sintético de 8 filas con 4 clientes y 1 factura liquidada. Cubre los tres escalones (1 `提醒` / 1 `催告` / 2 `升级`), incluye un pago parcial y un nombre de cliente con coma, que ejercita el entrecomillado CSV:
 
 ```text
@@ -247,7 +248,7 @@ No. Lee el CSV indicado, escribe solo bajo las dos carpetas de `$DSH_HOME/dsh-ar
 
 ## Versión
 
-`0.2.0` · 85 pruebas pasan (`node --test test/*.test.mjs`).
+`0.2.1` · 85 pruebas pasan (`node --test test/*.test.mjs`).
 
 ## Códigos de error
 
